@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="/home/xgouchet/Perso/git/BackInTime/gears/src/main/res" >
+            <file
+                path="/home/xgouchet/Perso/git/BackInTime/gears/src/main/res/values/gears_styles.xml"
+                qualifiers="" >
+
+                <style name="GearsWatchLayer" >
+                    <item name="android:layout_width">
+match_parent
+                    </item>
+                    <item name="android:layout_height">
+match_parent
+                    </item>
+                    <item name="android:scaleType">
+fitXY
+                    </item>
+                </style>
+
+                <style name="GearsWatchLayer.Hand" >
+                    <item name="android:scaleType">
+center
+                    </item>
+                </style>
+            </file>
+        </source>
+        <source path="/home/xgouchet/Perso/git/BackInTime/gears/build/generated/res/rs/release" />
+        <source path="/home/xgouchet/Perso/git/BackInTime/gears/build/generated/res/generated/release" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="/home/xgouchet/Perso/git/BackInTime/gears/src/release/res" />
+    </dataSet>
+
+</merger>

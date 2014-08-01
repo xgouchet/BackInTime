@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fr.xgouchet.android.bttf.widget.ClockTowerWatchface xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/watchface"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WatchfaceActivity">
+
+    <ImageView
+        android:id="@+id/background"
+        style="@style/ClockTower.ImageView"
+        android:src="@drawable/clock_tower_background" />
+
+
+    <ImageView
+        android:id="@+id/hand_hour"
+        style="@style/ClockTower.ImageView.Hand"
+        android:src="@drawable/clock_tower_hand_hour" />
+
+    <ImageView
+        android:id="@+id/hand_minute"
+        style="@style/ClockTower.ImageView.Hand"
+        android:src="@drawable/clock_tower_hand_minute" />
+
+
+</fr.xgouchet.android.bttf.widget.ClockTowerWatchface>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="fr.xgouchet.android.bttf">
+
+    <uses-feature android:name="android.hardware.type.watch" />
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
+
+    <application
+        android:name=".BTTFWatchfaceApp"
+        android:label="Back to the future">
+        <activity
+            android:name=".activity.TimeCircuitsWatchfaceActivity"
+            android:allowEmbedded="true"
+            android:label="Time Circuits"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+
+            <meta-data
+                android:name="com.google.android.clockwork.home.preview"
+                android:resource="@drawable/timecircuits_preview" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.google.android.clockwork.home.category.HOME_BACKGROUND" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.ClockTowerWatchfaceActivity"
+            android:allowEmbedded="true"
+            android:label="Clock Tower"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+
+            <meta-data
+                android:name="com.google.android.clockwork.home.preview"
+                android:resource="@drawable/clocktower_preview" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.google.android.clockwork.home.category.HOME_BACKGROUND" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
