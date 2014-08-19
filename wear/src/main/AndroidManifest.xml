@@ -11,7 +11,7 @@
         <activity
             android:name=".activity.TimeCircuitsWatchfaceActivity"
             android:allowEmbedded="true"
-            android:label="Time Circuits"
+            android:label="@string/time_circuits"
             android:taskAffinity=""
             android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
 
@@ -34,7 +34,7 @@
 
             <meta-data
                 android:name="com.google.android.clockwork.home.preview"
-                android:resource="@drawable/clocktower_preview" />
+                android:resource="@drawable/clock_tower_preview_black" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

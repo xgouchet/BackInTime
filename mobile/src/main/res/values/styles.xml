@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BackInTime.Base" parent="android:Theme.Holo.Light.DarkActionBar">
+
+    </style>
+
+    <style name="BackInTime.Theme" parent="BackInTime.Base">
+
+    </style>
+
+</resources>

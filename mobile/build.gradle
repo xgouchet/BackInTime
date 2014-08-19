@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "fr.xgouchet.android.bttf"
-        minSdkVersion 14
+        minSdkVersion 18
         targetSdkVersion 20
         versionCode 1
         versionName "1.0"
@@ -21,6 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':timecircuits')
+    compile project(':clocktower')
     wearApp project(':wear')
     compile 'com.google.android.gms:play-services-wearable:+'
 }

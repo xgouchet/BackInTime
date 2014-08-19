@@ -15,7 +15,7 @@
         android:id="@+id/row_destination"
         style="@style/TimeCircuits.Layout.Plate"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/plate_destination_labels">
+        android:background="@drawable/plate_large_destination_labels">
 
         <TextView
             android:id="@+id/text_dest_month"
@@ -28,10 +28,13 @@
             tools:text="21" />
 
         <TextView
+            style="@style/TimeCircuits.Text"
+            tools:text="" />
+
+        <TextView
             android:id="@+id/text_dest_year"
             style="@style/TimeCircuits.Text.Destination"
             tools:text="2015" />
-
 
         <Space
             android:layout_width="0dp"
@@ -53,7 +56,7 @@
         android:id="@+id/row_present"
         style="@style/TimeCircuits.Layout.Plate"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/plate_present">
+        android:background="@drawable/plate_large_present_labels">
 
         <TextView
             android:id="@+id/text_present_month"
@@ -64,6 +67,10 @@
             android:id="@+id/text_present_day"
             style="@style/TimeCircuits.Text.Present"
             tools:text="21" />
+
+        <TextView
+            style="@style/TimeCircuits.Text"
+            tools:text="" />
 
         <TextView
             android:id="@+id/text_present_year"
@@ -91,7 +98,7 @@
         android:id="@+id/row_departed"
         style="@style/TimeCircuits.Layout.Plate"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/plate_departed">
+        android:background="@drawable/plate_large_departed_labels">
 
         <TextView
             android:id="@+id/text_depart_month"
@@ -103,6 +110,10 @@
             android:id="@+id/text_depart_day"
             style="@style/TimeCircuits.Text.Departed"
             tools:text="21" />
+
+        <TextView
+            style="@style/TimeCircuits.Text"
+            tools:text="" />
 
         <TextView
             android:id="@+id/text_depart_year"

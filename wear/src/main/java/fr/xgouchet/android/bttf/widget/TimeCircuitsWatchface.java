@@ -1,6 +1,7 @@
 package fr.xgouchet.android.bttf.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -44,6 +45,10 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
     private boolean mInflated;
     private boolean mActive;
 
+    private int mGlowRadius;
+    private int mDestinationAccentColor, mPresentAccentColor, mDepartedAccentColor;
+    private int mWhiteColor, mBlackColor;
+
     public TimeCircuitsWatchface(Context context) {
         super(context);
         init(context, null, 0);
@@ -60,18 +65,33 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
-        Log.d("Watchface", "init");
+        Log.d("TimeCircuitsWatchface", "init");
+
         if (isInEditMode()) {
             return;
         }
+
         mWatch = new Watch(this);
+        mWatch.setFormat24Hour("H:mm");
+        mWatch.setFormat12Hour("h:mm a");
+
+        Resources res = context.getResources();
+
+        mGlowRadius = res.getInteger(R.integer.glow_radius);
+
+        mDestinationAccentColor = res.getColor(R.color.accent_destination);
+        mPresentAccentColor = res.getColor(R.color.accent_present);
+        mDepartedAccentColor = res.getColor(R.color.accent_departed);
+        mWhiteColor = res.getColor(R.color.white);
+        mBlackColor = res.getColor(R.color.black);
     }
+
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        Log.d("Watchface", "onFinishInflate");
+        Log.d("TimeCircuitsWatchface", "onFinishInflate");
 
         mTextViews[IDX_ROW_DEST + IDX_COL_MONTH] = (TextView) findViewById(R.id.text_dest_month);
         mTextViews[IDX_ROW_DEST + IDX_COL_DAY] = (TextView) findViewById(R.id.text_dest_day);
@@ -108,7 +128,7 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
 
     @Override
     public void onAttachedToWindow() {
-        Log.d("Watchface", "onAttachedToWindow");
+        Log.d("TimeCircuitsWatchface", "onAttachedToWindow");
 
         super.onAttachedToWindow();
 
@@ -121,7 +141,7 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
     @Override
     public void onDetachedFromWindow() {
 
-        Log.d("Watchface", "onDetachedFromWindow");
+        Log.d("TimeCircuitsWatchface", "onDetachedFromWindow");
 
         super.onDetachedFromWindow();
 
@@ -134,34 +154,42 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
 
     @Override
     public void onTimeChanged(Calendar time) {
+        if (!mInflated){
+            return;
+        }
 
-        Log.d("Watchface", "onTimeChanged");
-
+        Log.d("TimeCircuitsWatchface", "onTimeChanged");
         displayTime(time, IDX_ROW_DEST);
         displayTime(time, IDX_ROW_PRESENT);
         displayTime(time, IDX_ROW_DEPART);
 
         invalidate();
+
     }
 
     private void displayTime(Calendar time, int rowIndex) {
+
         mTextViews[rowIndex + IDX_COL_MONTH].setText(MONTH_NAMES[time.get(Calendar.MONTH)]);
         mTextViews[rowIndex + IDX_COL_DAY].setText(String.format(Locale.US, "%02d", time.get(Calendar.DAY_OF_MONTH)));
         mTextViews[rowIndex + IDX_COL_YEAR].setText(String.format(Locale.US, "%04d", time.get(Calendar.YEAR)));
-        mTextViews[rowIndex + IDX_COL_HOUR].setText(String.format(Locale.US, "%02d", time.get(Calendar.HOUR_OF_DAY)));
+
+        if (mWatch.is24HourModeEnabled()) {
+            mTextViews[rowIndex + IDX_COL_HOUR].setText(String.format(Locale.US, "%02d", time.get(Calendar.HOUR_OF_DAY)));
+        } else {
+            mTextViews[rowIndex + IDX_COL_HOUR].setText(String.format(Locale.US, "%02d", time.get(Calendar.HOUR)));
+        }
+
         mTextViews[rowIndex + IDX_COL_MINUTE].setText(String.format(Locale.US, "%02d", time.get(Calendar.MINUTE)));
     }
 
     @Override
     public void onActiveStateChanged(boolean active) {
-        Log.d("Watchface", "onActiveStateChanged");
         mActive = active;
         setImageResources();
     }
 
     @Override
     public boolean handleSecondsInDimMode() {
-        Log.d("Watchface", "handleSecondsInDimMode");
         return false;
     }
 
@@ -170,17 +198,35 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
         if (mInflated) {
             if (mActive) {
                 setBackgroundResource(R.drawable.background);
-                mRowDestination.setBackgroundResource(R.drawable.plate_destination_labels);
-                mRowPresent.setBackgroundResource(R.drawable.plate_present);
-                mRowDeparted.setBackgroundResource(R.drawable.plate_departed);
+                mRowDestination.setBackgroundResource(R.drawable.plate_large_destination_labels);
+                mRowPresent.setBackgroundResource(R.drawable.plate_large_present_labels);
+                mRowDeparted.setBackgroundResource(R.drawable.plate_large_departed_labels);
+
+                setRowTextColors(mDestinationAccentColor, mDestinationAccentColor, IDX_ROW_DEST);
+                setRowTextColors(mPresentAccentColor, mPresentAccentColor, IDX_ROW_PRESENT);
+                setRowTextColors(mDepartedAccentColor, mDepartedAccentColor, IDX_ROW_DEPART);
+
             } else {
                 setBackgroundResource(R.drawable.background_dimmed);
                 mRowDestination.setBackgroundResource(R.drawable.plate_dimmed);
                 mRowPresent.setBackgroundResource(R.drawable.plate_dimmed);
                 mRowDeparted.setBackgroundResource(R.drawable.plate_dimmed);
+
+                setRowTextColors(mWhiteColor, mBlackColor, IDX_ROW_DEST);
+                setRowTextColors(mWhiteColor, mBlackColor, IDX_ROW_PRESENT);
+                setRowTextColors(mWhiteColor, mBlackColor, IDX_ROW_DEPART);
             }
         }
     }
 
+    private void setRowTextColors(int textColor, int shadowColor, int rowIndex) {
+        for (int i = 0; i < COLS_COUNT; ++i) {
+            TextView textView = mTextViews[rowIndex + i];
+
+
+            textView.setTextColor(textColor);
+            textView.setShadowLayer(mGlowRadius, 0, 0, shadowColor);
+        }
+    }
 
 }

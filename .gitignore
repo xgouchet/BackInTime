@@ -1,5 +1,15 @@
-.gradle
-/local.properties
-/.idea/workspace.xml
-.DS_Store
-/build
+# built application files 
+*.apk
+*.ap_
+
+# intermediate compilation files
+*.dex
+*.class
+build/
+
+# local configs
+.gradle/
+local.properties
+.idea
+
+

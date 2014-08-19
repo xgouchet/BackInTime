@@ -2,6 +2,7 @@ package fr.xgouchet.android.bttf.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -23,6 +24,9 @@ public class ClockTowerWatchface extends FrameLayout implements IWatchface {
     private boolean mInflated;
     private boolean mActive;
 
+    private int mLastHour = -1;
+    private int mLastMinute = -1;
+
     public ClockTowerWatchface(Context context) {
         super(context);
         init(context, null, 0);
@@ -42,7 +46,11 @@ public class ClockTowerWatchface extends FrameLayout implements IWatchface {
         if (isInEditMode()) {
             return;
         }
+
         mWatch = new Watch(this);
+        mWatch.setFormat24Hour("H:mm");
+        mWatch.setFormat12Hour("h:mm a");
+
     }
 
     @Override
@@ -86,8 +94,17 @@ public class ClockTowerWatchface extends FrameLayout implements IWatchface {
     @Override
     public void onTimeChanged(Calendar time) {
 
+        if (!mInflated) {
+            return;
+        }
+
+        Log.d("ClockTowerWatchface", "onTimeChanged");
+
         int hr = time.get(Calendar.HOUR_OF_DAY) % 12;
         int min = time.get(Calendar.MINUTE);
+
+        mLastHour = hr;
+        mLastMinute = min;
 
         rotateHands(hr, min);
         invalidate();
@@ -106,7 +123,7 @@ public class ClockTowerWatchface extends FrameLayout implements IWatchface {
 
     private void setImageResources() {
         if (mInflated) {
-            mBackground.setImageResource(mActive ? R.drawable.clock_tower_background : R.drawable.clock_tower_background_dimmed);
+            mBackground.setImageResource(mActive ? R.drawable.clock_tower_background_black : R.drawable.clock_tower_background_dimmed);
             mHandHour.setImageResource(mActive ? R.drawable.clock_tower_hand_hour : R.drawable.clock_tower_hand_hour_dimmed);
             mHandMinute.setImageResource(mActive ? R.drawable.clock_tower_hand_minute : R.drawable.clock_tower_hand_minute_dimmed);
         }

@@ -23,6 +23,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':gears')
+    compile project(':timecircuits')
+    compile project(':clocktower')
     compile 'com.google.android.support:wearable:+'
     compile 'com.google.android.gms:play-services-wearable:+'
 }
