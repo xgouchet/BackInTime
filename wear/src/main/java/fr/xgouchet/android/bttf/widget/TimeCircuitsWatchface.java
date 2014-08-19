@@ -1,53 +1,34 @@
 package fr.xgouchet.android.bttf.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.twotoasters.watchface.gears.widget.IWatchface;
 import com.twotoasters.watchface.gears.widget.Watch;
 
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.GregorianCalendar;
 
 import fr.xgouchet.android.bttf.R;
+import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsRenderer;
 
 
-public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
+public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
 
 
-    private static final String[] MONTH_NAMES = new String[]{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
-
-
-    private static final int COLS_COUNT = 5;
-    private static final int ROWS_COUNT = 3;
-
-    private static final int IDX_COL_MONTH = 0;
-    private static final int IDX_COL_DAY = 1;
-    private static final int IDX_COL_YEAR = 2;
-    private static final int IDX_COL_HOUR = 3;
-
-    private static final int IDX_COL_MINUTE = 4;
-    private static final int IDX_ROW_DEST = 0;
-    private static final int IDX_ROW_PRESENT = IDX_ROW_DEST + COLS_COUNT;
-
-    private static final int IDX_ROW_DEPART = IDX_ROW_PRESENT + COLS_COUNT;
-
-    private final TextView mTextViews[] = new TextView[COLS_COUNT * ROWS_COUNT];
-    private LinearLayout mRowDestination, mRowPresent, mRowDeparted;
+    private ImageView mDashboard;
 
     private Watch mWatch;
 
     private boolean mInflated;
     private boolean mActive;
+    private TimeCircuitsRenderer mRenderer;
 
-    private int mGlowRadius;
-    private int mDestinationAccentColor, mPresentAccentColor, mDepartedAccentColor;
-    private int mWhiteColor, mBlackColor;
+    private Calendar mDestinationTime, mPresentTime, mDepartedTime;
+
 
     public TimeCircuitsWatchface(Context context) {
         super(context);
@@ -71,19 +52,13 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
             return;
         }
 
+        // Create Watch
         mWatch = new Watch(this);
         mWatch.setFormat24Hour("H:mm");
         mWatch.setFormat12Hour("h:mm a");
 
-        Resources res = context.getResources();
-
-        mGlowRadius = res.getInteger(R.integer.glow_radius);
-
-        mDestinationAccentColor = res.getColor(R.color.accent_destination);
-        mPresentAccentColor = res.getColor(R.color.accent_present);
-        mDepartedAccentColor = res.getColor(R.color.accent_departed);
-        mWhiteColor = res.getColor(R.color.white);
-        mBlackColor = res.getColor(R.color.black);
+        // Create Renderer
+        mRenderer = new TimeCircuitsRenderer(context, "bttf_tc.ttf", false);
     }
 
 
@@ -93,35 +68,7 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
 
         Log.d("TimeCircuitsWatchface", "onFinishInflate");
 
-        mTextViews[IDX_ROW_DEST + IDX_COL_MONTH] = (TextView) findViewById(R.id.text_dest_month);
-        mTextViews[IDX_ROW_DEST + IDX_COL_DAY] = (TextView) findViewById(R.id.text_dest_day);
-        mTextViews[IDX_ROW_DEST + IDX_COL_YEAR] = (TextView) findViewById(R.id.text_dest_year);
-        mTextViews[IDX_ROW_DEST + IDX_COL_HOUR] = (TextView) findViewById(R.id.text_dest_hour);
-        mTextViews[IDX_ROW_DEST + IDX_COL_MINUTE] = (TextView) findViewById(R.id.text_dest_minute);
-
-        mTextViews[IDX_ROW_PRESENT + IDX_COL_MONTH] = (TextView) findViewById(R.id.text_present_month);
-        mTextViews[IDX_ROW_PRESENT + IDX_COL_DAY] = (TextView) findViewById(R.id.text_present_day);
-        mTextViews[IDX_ROW_PRESENT + IDX_COL_YEAR] = (TextView) findViewById(R.id.text_present_year);
-        mTextViews[IDX_ROW_PRESENT + IDX_COL_HOUR] = (TextView) findViewById(R.id.text_present_hour);
-        mTextViews[IDX_ROW_PRESENT + IDX_COL_MINUTE] = (TextView) findViewById(R.id.text_present_minute);
-
-        mTextViews[IDX_ROW_DEPART + IDX_COL_MONTH] = (TextView) findViewById(R.id.text_depart_month);
-        mTextViews[IDX_ROW_DEPART + IDX_COL_DAY] = (TextView) findViewById(R.id.text_depart_day);
-        mTextViews[IDX_ROW_DEPART + IDX_COL_YEAR] = (TextView) findViewById(R.id.text_depart_year);
-        mTextViews[IDX_ROW_DEPART + IDX_COL_HOUR] = (TextView) findViewById(R.id.text_depart_hour);
-        mTextViews[IDX_ROW_DEPART + IDX_COL_MINUTE] = (TextView) findViewById(R.id.text_depart_minute);
-
-        mRowDestination = (LinearLayout) findViewById(R.id.row_destination);
-        mRowPresent = (LinearLayout) findViewById(R.id.row_present);
-        mRowDeparted = (LinearLayout) findViewById(R.id.row_departed);
-
-        if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "bttf_tc.ttf");
-
-            for (TextView textView : mTextViews) {
-                textView.setTypeface(tf);
-            }
-        }
+        mDashboard = (ImageView) findViewById(R.id.dashboard);
 
         mInflated = true;
     }
@@ -135,6 +82,7 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
         if (isInEditMode()) {
             return;
         }
+
         mWatch.onAttachedToWindow();
     }
 
@@ -148,44 +96,40 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
         if (isInEditMode()) {
             return;
         }
+
         mWatch.onDetachedFromWindow();
     }
 
 
     @Override
     public void onTimeChanged(Calendar time) {
-        if (!mInflated){
+        if (!mInflated) {
             return;
         }
 
         Log.d("TimeCircuitsWatchface", "onTimeChanged");
-        displayTime(time, IDX_ROW_DEST);
-        displayTime(time, IDX_ROW_PRESENT);
-        displayTime(time, IDX_ROW_DEPART);
 
-        invalidate();
+        mDestinationTime = new GregorianCalendar(1985, 10, 26, 01, 20, 00);
+        mPresentTime = time;
+        mDepartedTime = new GregorianCalendar(1955, 11, 12, 22, 04, 00);
 
-    }
-
-    private void displayTime(Calendar time, int rowIndex) {
-
-        mTextViews[rowIndex + IDX_COL_MONTH].setText(MONTH_NAMES[time.get(Calendar.MONTH)]);
-        mTextViews[rowIndex + IDX_COL_DAY].setText(String.format(Locale.US, "%02d", time.get(Calendar.DAY_OF_MONTH)));
-        mTextViews[rowIndex + IDX_COL_YEAR].setText(String.format(Locale.US, "%04d", time.get(Calendar.YEAR)));
-
-        if (mWatch.is24HourModeEnabled()) {
-            mTextViews[rowIndex + IDX_COL_HOUR].setText(String.format(Locale.US, "%02d", time.get(Calendar.HOUR_OF_DAY)));
-        } else {
-            mTextViews[rowIndex + IDX_COL_HOUR].setText(String.format(Locale.US, "%02d", time.get(Calendar.HOUR)));
-        }
-
-        mTextViews[rowIndex + IDX_COL_MINUTE].setText(String.format(Locale.US, "%02d", time.get(Calendar.MINUTE)));
+        updateDashboard();
     }
 
     @Override
     public void onActiveStateChanged(boolean active) {
+        Log.d("onActiveStateChanged", "onTimeChanged");
         mActive = active;
-        setImageResources();
+
+        setBackgroundResource(mActive ? R.drawable.background : R.drawable.background_dimmed);
+
+        updateDashboard();
+    }
+
+    private void updateDashboard() {
+        mRenderer.renderDashboard(getContext(), mDestinationTime, mPresentTime, mDepartedTime, !mActive);
+        mDashboard.setImageBitmap(mRenderer.getBitmap());
+        invalidate();
     }
 
     @Override
@@ -193,40 +137,5 @@ public class TimeCircuitsWatchface extends LinearLayout implements IWatchface {
         return false;
     }
 
-    // update images based on dimmed or not
-    private void setImageResources() {
-        if (mInflated) {
-            if (mActive) {
-                setBackgroundResource(R.drawable.background);
-                mRowDestination.setBackgroundResource(R.drawable.plate_large_destination_labels);
-                mRowPresent.setBackgroundResource(R.drawable.plate_large_present_labels);
-                mRowDeparted.setBackgroundResource(R.drawable.plate_large_departed_labels);
-
-                setRowTextColors(mDestinationAccentColor, mDestinationAccentColor, IDX_ROW_DEST);
-                setRowTextColors(mPresentAccentColor, mPresentAccentColor, IDX_ROW_PRESENT);
-                setRowTextColors(mDepartedAccentColor, mDepartedAccentColor, IDX_ROW_DEPART);
-
-            } else {
-                setBackgroundResource(R.drawable.background_dimmed);
-                mRowDestination.setBackgroundResource(R.drawable.plate_dimmed);
-                mRowPresent.setBackgroundResource(R.drawable.plate_dimmed);
-                mRowDeparted.setBackgroundResource(R.drawable.plate_dimmed);
-
-                setRowTextColors(mWhiteColor, mBlackColor, IDX_ROW_DEST);
-                setRowTextColors(mWhiteColor, mBlackColor, IDX_ROW_PRESENT);
-                setRowTextColors(mWhiteColor, mBlackColor, IDX_ROW_DEPART);
-            }
-        }
-    }
-
-    private void setRowTextColors(int textColor, int shadowColor, int rowIndex) {
-        for (int i = 0; i < COLS_COUNT; ++i) {
-            TextView textView = mTextViews[rowIndex + i];
-
-
-            textView.setTextColor(textColor);
-            textView.setShadowLayer(mGlowRadius, 0, 0, shadowColor);
-        }
-    }
 
 }

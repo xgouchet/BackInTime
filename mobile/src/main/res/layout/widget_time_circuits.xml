@@ -1,137 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/watchface"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="12dp"
-    tools:context=".TimeCircuitsWatchfaceActivity">
+    android:id="@+id/widgetLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/timecircuits_widget_margin" >
+
+    <ImageView
+        android:id="@+id/timeCircuits"
+        style="@style/TimeCircuits.ImageView"
+        android:background="@drawable/dashboard"
+        tools:ignore="ContentDescription" />
 
 
-    <LinearLayout
-        android:id="@+id/row_destination"
-        style="@style/TimeCircuits.Layout.Plate"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/plate_large_destination_labels">
-
-        <TextView
-            android:id="@+id/text_dest_month"
-            style="@style/TimeCircuits.Text.Destination"
-            tools:text="OCT" />
-
-        <TextView
-            android:id="@+id/text_dest_day"
-            style="@style/TimeCircuits.Text.Destination"
-            tools:text="21" />
-
-        <TextView
-            style="@style/TimeCircuits.Text"
-            tools:text="" />
-
-        <TextView
-            android:id="@+id/text_dest_year"
-            style="@style/TimeCircuits.Text.Destination"
-            tools:text="2015" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/text_dest_hour"
-            style="@style/TimeCircuits.Text.Destination"
-            tools:text="16" />
-
-        <TextView
-            android:id="@+id/text_dest_minute"
-            style="@style/TimeCircuits.Text.Destination"
-            tools:text="35" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/row_present"
-        style="@style/TimeCircuits.Layout.Plate"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/plate_large_present_labels">
-
-        <TextView
-            android:id="@+id/text_present_month"
-            style="@style/TimeCircuits.Text.Present"
-            tools:text="OCT" />
-
-        <TextView
-            android:id="@+id/text_present_day"
-            style="@style/TimeCircuits.Text.Present"
-            tools:text="21" />
-
-        <TextView
-            style="@style/TimeCircuits.Text"
-            tools:text="" />
-
-        <TextView
-            android:id="@+id/text_present_year"
-            style="@style/TimeCircuits.Text.Present"
-            tools:text="2015" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/text_present_hour"
-            style="@style/TimeCircuits.Text.Present"
-            tools:text="16" />
-
-        <TextView
-            android:id="@+id/text_present_minute"
-            style="@style/TimeCircuits.Text.Present"
-            tools:text="35" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/row_departed"
-        style="@style/TimeCircuits.Layout.Plate"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/plate_large_departed_labels">
-
-        <TextView
-            android:id="@+id/text_depart_month"
-            style="@style/TimeCircuits.Text.Departed"
-
-            tools:text="OCT" />
-
-        <TextView
-            android:id="@+id/text_depart_day"
-            style="@style/TimeCircuits.Text.Departed"
-            tools:text="21" />
-
-        <TextView
-            style="@style/TimeCircuits.Text"
-            tools:text="" />
-
-        <TextView
-            android:id="@+id/text_depart_year"
-            style="@style/TimeCircuits.Text.Departed"
-            tools:text="2015" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/text_depart_hour"
-            style="@style/TimeCircuits.Text.Departed"
-            tools:text="16" />
-
-        <TextView
-            android:id="@+id/text_depart_minute"
-            style="@style/TimeCircuits.Text.Departed"
-            tools:text="35" />
-    </LinearLayout>
-</LinearLayout>
+</FrameLayout>

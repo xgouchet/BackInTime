@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/background"
         style="@style/ClockTower.ImageView"
-        android:src="@drawable/clock_tower_background" />
+        android:src="@drawable/clock_tower_background_black" />
 
 
     <ImageView
