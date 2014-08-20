@@ -121,7 +121,7 @@ public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
         Log.d("onActiveStateChanged", "onTimeChanged");
         mActive = active;
 
-        setBackgroundResource(mActive ? R.drawable.background : R.drawable.background_dimmed);
+        // setBackgroundResource(mActive ? R.drawable.background : R.drawable.background_dimmed);
 
         updateDashboard();
     }

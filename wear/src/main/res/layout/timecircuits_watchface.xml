@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@drawable/background"
+    android:background="@color/black"
     android:orientation="vertical"
-    android:padding="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingTop="12dp"
     tools:context=".TimeCircuitsWatchfaceActivity">
 
     <ImageView

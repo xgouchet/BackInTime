@@ -133,21 +133,21 @@ public class TimeCircuitsRenderer {
         mGlowRadius = res.getDimensionPixelSize(R.dimen.lcd_glow_radius) * mScale;
 
         // load the text size
-        mScreenTextSize = res.getDimensionPixelSize(R.dimen.lcd_screen_text_size);
+        mScreenTextSize = res.getDimensionPixelSize(R.dimen.lcd_screen_text_size) * mScale;
         mScreenTextOffsetY = res.getDimensionPixelOffset(R.dimen.lcd_screen_text_offset_y);
         mScreenTextOffsetX = res.getDimensionPixelOffset(R.dimen.lcd_screen_text_offset_x);
 
         // load the X positions of texts
-        mMonthScreenPos = res.getDimensionPixelOffset(R.dimen.lcd_month_screen_x_pos) + mScreenTextOffsetX;
-        mYearScreenPos = res.getDimensionPixelOffset(R.dimen.lcd_year_screen_x_pos) + mScreenTextOffsetX;
-        mDayScreenPos = res.getDimensionPixelOffset(R.dimen.lcd_day_screen_x_pos) + mScreenTextOffsetX;
-        mHourScreenPos = res.getDimensionPixelOffset(R.dimen.lcd_hour_screen_x_pos) + mScreenTextOffsetX;
-        mMinScreenPos = res.getDimensionPixelOffset(R.dimen.lcd_min_screen_x_pos) + mScreenTextOffsetX;
+        mMonthScreenPos = (res.getDimensionPixelOffset(R.dimen.lcd_month_screen_x_pos) + mScreenTextOffsetX) * mScale;
+        mYearScreenPos = (res.getDimensionPixelOffset(R.dimen.lcd_year_screen_x_pos) + mScreenTextOffsetX) * mScale;
+        mDayScreenPos = (res.getDimensionPixelOffset(R.dimen.lcd_day_screen_x_pos) + mScreenTextOffsetX) * mScale;
+        mHourScreenPos = (res.getDimensionPixelOffset(R.dimen.lcd_hour_screen_x_pos) + mScreenTextOffsetX) * mScale;
+        mMinScreenPos = (res.getDimensionPixelOffset(R.dimen.lcd_min_screen_x_pos) + mScreenTextOffsetX) * mScale;
 
         // load the Y positions of texts
-        mDestinationRowY = res.getDimensionPixelOffset(R.dimen.lcd_destination_row_y) + mScreenTextOffsetY;
-        mPresentRowY = res.getDimensionPixelOffset(R.dimen.lcd_present_row_y) + mScreenTextOffsetY;
-        mDepartedRowY = res.getDimensionPixelOffset(R.dimen.lcd_last_departed_row_y) + mScreenTextOffsetY;
+        mDestinationRowY = (res.getDimensionPixelOffset(R.dimen.lcd_destination_row_y) + mScreenTextOffsetY) * mScale;
+        mPresentRowY = (res.getDimensionPixelOffset(R.dimen.lcd_present_row_y) + mScreenTextOffsetY) * mScale;
+        mDepartedRowY = (res.getDimensionPixelOffset(R.dimen.lcd_last_departed_row_y) + mScreenTextOffsetY) * mScale;
     }
 
     private void loadFont(Context context, String fontPathInAssets) {
