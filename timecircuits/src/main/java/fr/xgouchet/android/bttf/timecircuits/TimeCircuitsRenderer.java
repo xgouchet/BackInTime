@@ -66,12 +66,12 @@ public class TimeCircuitsRenderer {
 
     /**
      * @param context     the current application context
-     * @param destination the destination time
-     * @param present     the present time
-     * @param departed    the last departed time
+     * @param destination the destination time (should be a Calendar or String object)
+     * @param present     the present time (should be a Calendar or String object)
+     * @param departed    the last departed time (should be a Calendar or String object)
      * @param dimmed      if the dashboard should be rendered dimmed
      */
-    public void renderDashboard(Context context, Calendar destination, Calendar present, Calendar departed, boolean dimmed) {
+    public void renderDashboard(Context context, Object destination, Object present, Object departed, boolean dimmed) {
 
         if (mCanvas == null) {
             Log.w("TimeCircuitsRenderer", "renderDashboard : null canvas");
@@ -86,36 +86,46 @@ public class TimeCircuitsRenderer {
         }
 
         // draw Dest, Present, Departed
-        if (destination != null) {
-            if (dimmed) {
-                renderRow(destination, mDestinationRowY, mWhiteTextPaint);
-            } else {
-                renderRow(destination, mDestinationRowY, mDestinationPaint);
-            }
-        }
-        if (present != null) {
-            if (dimmed) {
-                renderRow(present, mPresentRowY, mWhiteTextPaint);
-            } else {
-                renderRow(present, mPresentRowY, mPresentPaint);
-            }
-        }
-        if (departed != null) {
-            if (dimmed) {
-                renderRow(departed, mDepartedRowY, mWhiteTextPaint);
-            } else {
-                renderRow(departed, mDepartedRowY, mDepartedPaint);
-            }
+        if (dimmed) {
+            renderRow(destination, mDestinationRowY, mWhiteTextPaint);
+            renderRow(present, mPresentRowY, mWhiteTextPaint);
+            renderRow(departed, mDepartedRowY, mWhiteTextPaint);
+        } else {
+            renderRow(destination, mDestinationRowY, mDestinationPaint);
+            renderRow(present, mPresentRowY, mPresentPaint);
+            renderRow(departed, mDepartedRowY, mDepartedPaint);
         }
 
     }
 
-    private void renderRow(Calendar time, int y, Paint paint) {
-        mCanvas.drawText(MONTH_NAMES[time.get(Calendar.MONTH)], mMonthScreenPos, y, paint);
-        mCanvas.drawText(String.format(Locale.US, "%02d", time.get(Calendar.DAY_OF_MONTH)), mDayScreenPos, y, paint);
-        mCanvas.drawText(String.format(Locale.US, "%04d", time.get(Calendar.YEAR)), mYearScreenPos, y, paint);
-        mCanvas.drawText(String.format(Locale.US, "%02d", time.get(Calendar.HOUR)), mHourScreenPos, y, paint);
-        mCanvas.drawText(String.format(Locale.US, "%02d", time.get(Calendar.MINUTE)), mMinScreenPos, y, paint);
+    private void renderRow(Object value, int y, Paint paint) {
+        if (value == null) {
+            mCanvas.drawText("888", mMonthScreenPos, y, paint);
+            mCanvas.drawText("88", mDayScreenPos, y, paint);
+            mCanvas.drawText("8888", mYearScreenPos, y, paint);
+            mCanvas.drawText("88", mHourScreenPos, y, paint);
+            mCanvas.drawText("88", mMinScreenPos, y, paint);
+        } else if (value instanceof Calendar) {
+            Calendar time = (Calendar) value;
+
+            int hour = time.get(Calendar.HOUR);
+            if (hour == 0) {
+                hour = 12;
+            }
+
+            mCanvas.drawText(MONTH_NAMES[time.get(Calendar.MONTH)], mMonthScreenPos, y, paint);
+            mCanvas.drawText(String.format(Locale.US, "%02d", time.get(Calendar.DAY_OF_MONTH)), mDayScreenPos, y, paint);
+            mCanvas.drawText(String.format(Locale.US, "%04d", time.get(Calendar.YEAR)), mYearScreenPos, y, paint);
+            mCanvas.drawText(String.format(Locale.US, "%02d", hour), mHourScreenPos, y, paint);
+            mCanvas.drawText(String.format(Locale.US, "%02d", time.get(Calendar.MINUTE)), mMinScreenPos, y, paint);
+        } else {
+            String freetext = String.format("%s             ", value.toString()).toUpperCase();
+            mCanvas.drawText(freetext.substring(0, 3), mMonthScreenPos, y, paint);
+            mCanvas.drawText(freetext.substring(3, 5), mDayScreenPos, y, paint);
+            mCanvas.drawText(freetext.substring(5, 9), mYearScreenPos, y, paint);
+            mCanvas.drawText(freetext.substring(9, 11), mHourScreenPos, y, paint);
+            mCanvas.drawText(freetext.substring(11, 13), mMinScreenPos, y, paint);
+        }
     }
 
     private void loadBackground(Resources res) {

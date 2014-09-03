@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_app">Back in Time</string>
+    <string name="title_activity_main">Back in Time</string>
+
+    <string name="title_activity_tutorial">Welcome</string>
+    <string name="tutorial_title_introduction">Back in Time - Widgets and Watch Faces</string>
+    <string name="tutorial_title_home_widget">Adding a widget to the Home Screen</string>
+    <string name="tutorial_title_lock_widget">Adding a widget to the Lock Screen</string>
+    <string name="tutorial_title_watchface">Changing the Watchface of your wearable</string>
+    <string name="tutorial_text_introduction"><![CDATA[
+    This application provides <b><i>Home Screen</i> and <i>Lock Screen</i> widgets</b> for Android
+    phones and tablets, as well as <b><i>Watchfaces</i></b> for Android Wear watches, based on the
+    <i>"Back to the Future"</i> movies.
+    ]]></string>
+    <string name="tutorial_text_home_widget"><![CDATA[
+        1. <b>Navigate to your Home Screen.</b> You might want to go to a page where there\'ll be enough space to put the widget.<br/>
+        2. <b>Open the Apps draw and select the <i>Widgets</i> tab.</b><br/>
+        3. <b>Find the <i>Time Circuits</i> or the <i>Clock Tower</i> widget.</b><br/>
+        4. <b>Press and hold on it.</b><br/>
+        5. <b>Place it on the Home Screen and let go.</b> As you release it, you\'ll see a white frame around it, as well as circles indicating that you can change the size of the widget.<br/>
+        ]]></string>
+    <string name="tutorial_text_lock_widget"><![CDATA[
+        1. <b>Lock your device to show the Lock Screen.</b><br/>
+        2. <b>Swipe from the left edge of the device to the right edge,</b> until you reveal a big + sign in a white rectangle.<br/>
+        3. <b>Tap the “+” sign to see a list of available lock-screen widgets.</b> If your phone is protected by a passcode, you\’ll need to enter it first before you can browse your available widgets.<br/>
+        3. <b>Find the <i>Time Circuits</i> or the <i>Clock Tower</i> widget.</b><br/>
+        4. <b>Tap on it to add it to the Lock Screen.</b><br/>
+        ]]></string>
+    <string name="tutorial_text_watchface"><![CDATA[
+        1. <b>Navigate to the Wear device\'s <i>Settings</i>.</b> You can do that by bringing the <i>Google Now</i> screen and then saying "Settings", or scrolling down to see the <i>Settings option</i>.  <br/>
+        2. <b>In the Settings page, scroll down to the "Change watch face" option</b<br/>
+        3. <b>Tap the “+” sign to see a list of available lock-screen widgets.</b> If your phone is protected by a passcode, you\’ll need to enter it first before you can browse your available widgets.<br/>
+        3. <b>Find the <i>Time Circuits</i> or the <i>Clock Tower</i> widget.</b><br/>
+        4. <b>Tap on it to add it to the Lock Screen.</b><br/>
+        ]]></string>
+</resources>

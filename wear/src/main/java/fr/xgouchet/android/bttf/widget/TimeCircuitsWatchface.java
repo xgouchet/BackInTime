@@ -109,9 +109,9 @@ public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
 
         Log.d("TimeCircuitsWatchface", "onTimeChanged");
 
-        mDestinationTime = new GregorianCalendar(1985, 10, 26, 01, 20, 00);
+        mDestinationTime = new GregorianCalendar(1985, 9, 26, 1, 20, 0);
         mPresentTime = time;
-        mDepartedTime = new GregorianCalendar(1955, 11, 12, 22, 04, 00);
+        mDepartedTime = new GregorianCalendar(1955, 10, 12, 22, 4, 0);
 
         updateDashboard();
     }

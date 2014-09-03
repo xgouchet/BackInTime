@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_main">Back in Time</string>
+    <string name="title_activity_tutorial">Bienvenue</string>
+    <string name="title_app">Back in Time</string>
+    <string name="tutorial_title_introduction">Back in Time - Widgets et Watch Faces</string>
+    <string name="tutorial_title_home_widget">Ajouter un widget sur l\'écran d\'accueil</string>
+    <string name="tutorial_title_lock_widget">Ajouter un widget à l\'écran de vérouillage</string>
+    <string name="tutorial_title_watchface">Changer la Watch Face de votre montre</string>
+</resources>

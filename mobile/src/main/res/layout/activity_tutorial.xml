@@ -1,0 +1,30 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="fr.xgouchet.android.bttf.activity.TutorialActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/titles"
+        android:layout_width="fill_parent"
+        android:padding="4dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fillColor="#FF5677FC"
+        app:pageColor="#FFFFFFFF"
+        app:radius="4dp"
+        app:strokeColor="#FF000000"
+        app:strokeWidth="1dp" />
+</FrameLayout>
