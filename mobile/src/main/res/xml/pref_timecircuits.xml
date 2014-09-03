@@ -8,6 +8,7 @@
         <ListPreference
             android:entries="@array/destination_sources"
             android:entryValues="@array/sources_ids"
+            android:defaultValue="calendar"
             android:key="pref_destination_source"
             android:title="@string/pref_tc_destination_source" />
 
@@ -28,6 +29,7 @@
             android:entries="@array/departed_sources"
             android:entryValues="@array/sources_ids"
             android:key="pref_departed_source"
+            android:defaultValue="calendar"
             android:title="@string/pref_tc_destination_source" />
 
         <ListPreference

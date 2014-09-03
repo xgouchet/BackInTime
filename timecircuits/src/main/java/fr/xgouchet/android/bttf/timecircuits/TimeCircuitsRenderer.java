@@ -108,10 +108,13 @@ public class TimeCircuitsRenderer {
         } else if (value instanceof Calendar) {
             Calendar time = (Calendar) value;
 
-            int hour = time.get(Calendar.HOUR);
-            if (hour == 0) {
-                hour = 12;
-            }
+            int hour;
+            hour = time.get(Calendar.HOUR_OF_DAY);
+
+//            hour = time.get(Calendar.HOUR);
+//            if (hour == 0) {
+//                hour = 12;
+//            }
 
             mCanvas.drawText(MONTH_NAMES[time.get(Calendar.MONTH)], mMonthScreenPos, y, paint);
             mCanvas.drawText(String.format(Locale.US, "%02d", time.get(Calendar.DAY_OF_MONTH)), mDayScreenPos, y, paint);

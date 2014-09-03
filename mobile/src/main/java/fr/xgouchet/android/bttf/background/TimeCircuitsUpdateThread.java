@@ -134,30 +134,53 @@ public class TimeCircuitsUpdateThread extends Thread {
 
     private void updateTimes(long now) {
         mPresentTime.setTimeInMillis(now);
+        updateDestinationTime();
+        updateDepartedTime();
+    }
 
-        // update destination time
+    private void updateDestinationTime() {
         String source = SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DESTINATION_SOURCE);
-        switch (source) {
-            case SettingsUtils.SOURCE_FREETEXT:
-                mDestinationTime = SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DESTINATION_FREETEXT);
-                break;
-            case SettingsUtils.SOURCE_CALENDAR:
-                mDestinationTime = TimeSource.getNextCalendarEvent(mContext);
-                break;
-            default:
-                mDestinationTime = null;
-                break;
+        if (source != null) {
+            switch (source) {
+                case SettingsUtils.SOURCE_FREETEXT:
+                    mDestinationTime = SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DESTINATION_FREETEXT);
+                    break;
+                case SettingsUtils.SOURCE_CALENDAR:
+                    mDestinationTime = TimeSource.getNextCalendarEvent(mContext);
+                    break;
+                case SettingsUtils.SOURCE_TIMEZONE:
+                    mDestinationTime = TimeSource.getTimeZoneTime(SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DESTINATION_TIMEZONE));
+                    break;
+                case SettingsUtils.SOURCE_BATTERY:
+                    mDestinationTime = TimeSource.getExpectedShutdownTime(mContext);
+                    break;
+                default:
+                    mDestinationTime = null;
+                    break;
+            }
         }
+    }
 
-        // update departed time
-        source = SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DEPARTED_SOURCE);
-        switch (source) {
-            case SettingsUtils.SOURCE_FREETEXT:
-                mDepartedTime = SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DEPARTED_FREETEXT);
-                break;
-            default:
-                mDepartedTime = null;
-                break;
+    private void updateDepartedTime() {
+        String source = SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DEPARTED_SOURCE);
+        if (source != null) {
+            switch (source) {
+                case SettingsUtils.SOURCE_FREETEXT:
+                    mDepartedTime = SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DEPARTED_FREETEXT);
+                    break;
+                case SettingsUtils.SOURCE_CALENDAR:
+                    mDepartedTime = TimeSource.getLastCalendarEvent(mContext);
+                    break;
+                case SettingsUtils.SOURCE_TIMEZONE:
+                    mDepartedTime = TimeSource.getTimeZoneTime(SettingsUtils.getStringPreference(mContext, SettingsUtils.PREF_DEPARTED_TIMEZONE));
+                    break;
+                case SettingsUtils.SOURCE_BATTERY:
+                    mDepartedTime = TimeSource.getBootTime();
+                    break;
+                default:
+                    mDepartedTime = null;
+                    break;
+            }
         }
     }
 

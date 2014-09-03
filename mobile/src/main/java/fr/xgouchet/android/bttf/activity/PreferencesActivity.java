@@ -38,6 +38,12 @@ public class PreferencesActivity extends PreferenceActivity {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        if(TimeCircuitsPreferencesFragment.class.getName().equals(fragmentName))
+            return true;
+        return false;
+    }
 
     public static class TimeCircuitsPreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -89,11 +95,14 @@ public class PreferencesActivity extends PreferenceActivity {
             mDestTimeSource.setSummary(mDestTimeSource.getEntry());
             mDestTimezone.setSummary(mDestTimezone.getEntry());
 
-            String freeTextSummary = mDestFreeText.getText().toUpperCase();
-            mDestFreeText.setSummary(freeTextSummary.substring(0, 3) + " "
-                    + freeTextSummary.substring(3, 5) + " " + freeTextSummary.substring(5, 9)
-                    + " " + freeTextSummary.substring(9, 11) + " "
-                    + freeTextSummary.substring(11, 13));
+            String freeTextSummary = mDestFreeText.getText();
+            if (freeTextSummary != null) {
+                freeTextSummary = freeTextSummary.toUpperCase();
+                mDestFreeText.setSummary(freeTextSummary.substring(0, 3) + " "
+                        + freeTextSummary.substring(3, 5) + " " + freeTextSummary.substring(5, 9)
+                        + " " + freeTextSummary.substring(9, 11) + " "
+                        + freeTextSummary.substring(11, 13));
+            }
 
             mDestTimezone.setEnabled(TextUtils.equals(mDestTimeSource.getValue(), SettingsUtils.SOURCE_TIMEZONE));
             mDestFreeText.setEnabled(TextUtils.equals(mDestTimeSource.getValue(), SettingsUtils.SOURCE_FREETEXT));
@@ -101,11 +110,15 @@ public class PreferencesActivity extends PreferenceActivity {
 
             mDepartedTimeSource.setSummary(mDepartedTimeSource.getEntry());
             mDepartedTimezone.setSummary(mDepartedTimezone.getEntry());
-            freeTextSummary = mDepartedFreeText.getText().toUpperCase();
-            mDepartedFreeText.setSummary(freeTextSummary.substring(0, 3) + " "
-                    + freeTextSummary.substring(3, 5) + " " + freeTextSummary.substring(5, 9)
-                    + " " + freeTextSummary.substring(9, 11) + " "
-                    + freeTextSummary.substring(11, 13));
+
+            freeTextSummary = mDepartedFreeText.getText();
+            if (freeTextSummary != null) {
+                freeTextSummary = freeTextSummary.toUpperCase();
+                mDepartedFreeText.setSummary(freeTextSummary.substring(0, 3) + " "
+                        + freeTextSummary.substring(3, 5) + " " + freeTextSummary.substring(5, 9)
+                        + " " + freeTextSummary.substring(9, 11) + " "
+                        + freeTextSummary.substring(11, 13));
+            }
 
             mDepartedTimezone.setEnabled(TextUtils.equals(mDepartedTimeSource.getValue(), SettingsUtils.SOURCE_TIMEZONE));
             mDepartedFreeText.setEnabled(TextUtils.equals(mDepartedTimeSource.getValue(), SettingsUtils.SOURCE_FREETEXT));
