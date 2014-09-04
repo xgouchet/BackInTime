@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.android.gms.wearable.DataMap;
+
+import java.util.Map;
+
 /**
- * Created by xgouchet on 8/20/14.
  */
 public class SettingsUtils {
 
@@ -39,6 +42,25 @@ public class SettingsUtils {
 
     public static String getStringPreference(Context context, String key, String def) {
         return getPreferences(context).getString(key, def);
+    }
+
+    /**
+     * Filles a wearable DataMap with everything available in the SharedPreferences.
+     * Really usefull to send the prefs to the wearable all at once. Ok It may not be the most
+     * efficient way but this way nothing gets forgotten
+     *
+     * @param context the current context
+     * @param map     the map to fill
+     */
+    public static void fillDataMap(Context context, DataMap map) {
+
+        SharedPreferences sharedPreferences = getPreferences(context);
+        Map<String, ?> preferencesMap = sharedPreferences.getAll();
+
+        for (String key : preferencesMap.keySet()) {
+            map.putString(key, preferencesMap.get(key).toString());
+        }
+
     }
 }
 

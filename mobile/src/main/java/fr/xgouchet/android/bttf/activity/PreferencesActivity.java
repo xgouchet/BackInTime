@@ -9,6 +9,14 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.Wearable;
 
 import java.util.List;
 
@@ -30,6 +38,38 @@ import fr.xgouchet.android.bttf.utils.TimezoneUtils;
  */
 public class PreferencesActivity extends PreferenceActivity {
 
+    private GoogleApiClient mGoogleApiClient;
+    private WearableConnectionHandler mWearableConnectionHandler;
+    private boolean mConnected;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mWearableConnectionHandler = new WearableConnectionHandler();
+
+        GoogleApiClient.Builder builder = new GoogleApiClient.Builder(this);
+        builder.addConnectionCallbacks(mWearableConnectionHandler);
+        builder.addOnConnectionFailedListener(mWearableConnectionHandler);
+        builder.addApi(Wearable.API);
+
+        mGoogleApiClient = builder.build();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (null != mGoogleApiClient && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
 
     @Override
     public void onBuildHeaders(List<Header> target) {
@@ -40,11 +80,72 @@ public class PreferencesActivity extends PreferenceActivity {
 
     @Override
     protected boolean isValidFragment(String fragmentName) {
-        if(TimeCircuitsPreferencesFragment.class.getName().equals(fragmentName))
+        if (TimeCircuitsPreferencesFragment.class.getName().equals(fragmentName))
             return true;
         return false;
     }
 
+    /**
+     * If a wearable is connected, send the current preferences to it
+     */
+    private void updateWearablePreferences() {
+        if (!mConnected) {
+            return;
+        }
+
+        // Warn the user we're sending data now
+        Toast.makeText(this, R.string.toast_updating_wearable_preferences, Toast.LENGTH_LONG);
+
+        // Create the request
+        final PutDataMapRequest putRequest = PutDataMapRequest.create("/CONFIG");
+        // Fill it with the current values
+        SettingsUtils.fillDataMap(this, putRequest.getDataMap());
+
+        // send to the wearable
+        Wearable.DataApi.putDataItem(mGoogleApiClient, putRequest.asPutDataRequest());
+    }
+
+
+
+    /**
+     * The class handling connection with the wearable
+     */
+    public class WearableConnectionHandler implements GoogleApiClient.ConnectionCallbacks,
+            GoogleApiClient.OnConnectionFailedListener {
+
+        @Override
+        public void onConnected(Bundle bundle) {
+            Log.d("WearableConnectionHandler", "onConnected");
+            mConnected = true;
+        }
+
+        @Override
+        public void onConnectionSuspended(int cause) {
+            Log.w("WearableConnectionHandler", "onConnectionSuspended ");
+            mConnected = false;
+            switch (cause) {
+                case CAUSE_NETWORK_LOST:
+                    Log.i("WearableConnectionHandler", "Network Lost");
+                    break;
+                case CAUSE_SERVICE_DISCONNECTED:
+                    Log.i("WearableConnectionHandler", "Service Disconnected");
+                    break;
+                default:
+                    Log.i("WearableConnectionHandler", "Cause unknown");
+                    break;
+            }
+        }
+
+        @Override
+        public void onConnectionFailed(ConnectionResult connectionResult) {
+            mConnected = false;
+            Log.w("WearableConnectionHandler", "onConnectionFailed " + connectionResult.getErrorCode());
+        }
+    }
+
+    /**
+     * Fragment displaying preferences for the TimeCircuits widget / watchface
+     */
     public static class TimeCircuitsPreferencesFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         private ListPreference mDestTimeSource;
@@ -86,8 +187,14 @@ public class PreferencesActivity extends PreferenceActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            // first, update the UI
             updatePrefsUI();
-            TimeCircuitsService.startService(getActivity());
+
+            PreferencesActivity activity = (PreferencesActivity) getActivity();
+
+            // update all widgets (if any)
+            TimeCircuitsService.startService(activity);
+            activity.updateWearablePreferences();
         }
 
         private void updatePrefsUI() {
@@ -124,4 +231,6 @@ public class PreferencesActivity extends PreferenceActivity {
             mDepartedFreeText.setEnabled(TextUtils.equals(mDepartedTimeSource.getValue(), SettingsUtils.SOURCE_FREETEXT));
         }
     }
+
+
 }

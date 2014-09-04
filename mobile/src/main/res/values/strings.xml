@@ -45,4 +45,7 @@
     <string name="pref_time_zone">Time Zone</string>
     <string name="pref_free_text">Free Text</string>
     <string name="pref_free_text_hint">(13 letters, XXX-XX-XXXX-XX-XX)</string>
+
+    <!-- TOASTS -->
+    <string name="toast_updating_wearable_preferences">Updating the watchface settings on your wearable …</string>
 </resources>

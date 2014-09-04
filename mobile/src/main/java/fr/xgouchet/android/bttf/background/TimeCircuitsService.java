@@ -40,6 +40,7 @@ public class TimeCircuitsService extends Service {
      * @param context the current application context
      */
     public static void startService(Context context) {
+        Log.d("TimeCircuitsService", "startService");
         if (sThread == null) {
             Intent i = new Intent(context, TimeCircuitsService.class);
             context.startService(i);

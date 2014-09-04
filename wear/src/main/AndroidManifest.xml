@@ -41,6 +41,11 @@
                 <category android:name="com.google.android.clockwork.home.category.HOME_BACKGROUND" />
             </intent-filter>
         </activity>
+
+        <!-- Meta data needed to communicate between the wearable and any linked device -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
