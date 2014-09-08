@@ -4,8 +4,11 @@ import com.google.android.gms.wearable.DataMap;
 import com.twotoasters.watchface.gears.widget.IWatchface;
 
 import fr.xgouchet.android.bttf.R;
+import fr.xgouchet.android.bttf.widget.TimeCircuitsWatchface;
 
 public class TimeCircuitsWatchfaceActivity extends BoundWatchfaceActivity {
+
+
     @Override
     protected int getLayoutResId() {
         return R.layout.timecircuits_watchface;
@@ -19,6 +22,7 @@ public class TimeCircuitsWatchfaceActivity extends BoundWatchfaceActivity {
 
     @Override
     protected void onPreferencesMapReceived(DataMap map) {
+        TimeCircuitsWatchface watchface = (TimeCircuitsWatchface) getWatchface();
 
     }
 }

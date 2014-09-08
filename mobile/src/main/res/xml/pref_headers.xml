@@ -4,7 +4,7 @@
 
     <header
         android:icon="@drawable/ic_prefs_timecircuits"
-        android:fragment="fr.xgouchet.android.bttf.activity.PreferencesActivity$TimeCircuitsPreferencesFragment"
+        android:fragment="fr.xgouchet.android.bttf.fragments.TimeCircuitsPreferencesFragment"
         android:title="@string/time_circuits" />
 
 </preference-headers>

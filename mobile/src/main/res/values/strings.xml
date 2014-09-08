@@ -27,7 +27,7 @@
         1. <b>Lock your device to show the Lock Screen.</b><br/>
         2. <b>Swipe from the left edge of the device to the right edge,</b> until you reveal a big + sign in a white rectangle.<br/>
         3. <b>Tap the “+” sign to see a list of available lock-screen widgets.</b> If your phone is protected by a passcode, you\’ll need to enter it first before you can browse your available widgets.<br/>
-        3. <b>Find the <i>Time Circuits</i> or the <i>Clock Tower</i> widget.</b><br/>
+        3. <b>Find the <i>Time Circuits</i> or the <i>Clock Tower</i> widget.</b><bdr/>
         4. <b>Tap on it to add it to the Lock Screen.</b><br/>
         ]]></string>
     <string name="tutorial_text_watchface"><![CDATA[
@@ -43,7 +43,10 @@
     <string name="pref_tc_destination_source">Destination time source</string>
     <string name="pref_tc_departed_header">Last departed time</string>
     <string name="pref_time_zone">Time Zone</string>
+    <string name="pref_free_time">Free Time and Date</string>
     <string name="pref_free_text">Free Text</string>
+    <string name="pref_battery">Battery</string>
+    <string name="pref_calendar">Calendar</string>
     <string name="pref_free_text_hint">(13 letters, XXX-XX-XXXX-XX-XX)</string>
 
     <!-- TOASTS -->

@@ -6,40 +6,25 @@
     <PreferenceCategory android:title="@string/pref_tc_destination_header">
 
         <ListPreference
+            android:defaultValue="calendar"
             android:entries="@array/destination_sources"
             android:entryValues="@array/sources_ids"
-            android:defaultValue="calendar"
             android:key="pref_destination_source"
             android:title="@string/pref_tc_destination_source" />
 
-        <ListPreference
-            android:key="pref_destination_timezone"
-            android:title="@string/pref_time_zone" />
+        <Preference android:key="pref_destination_option" />
 
-        <EditTextPreference
-            android:maxLength="13"
-            android:hint="@string/pref_free_text_hint"
-            android:key="pref_destination_freetext"
-            android:title="@string/pref_free_text" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_tc_departed_header">
 
         <ListPreference
+            android:defaultValue="calendar"
             android:entries="@array/departed_sources"
             android:entryValues="@array/sources_ids"
             android:key="pref_departed_source"
-            android:defaultValue="calendar"
             android:title="@string/pref_tc_destination_source" />
 
-        <ListPreference
-            android:key="pref_departed_timezone"
-            android:title="@string/pref_time_zone" />
-
-        <EditTextPreference
-            android:maxLength="13"
-            android:hint="@string/pref_free_text_hint"
-            android:key="pref_departed_freetext"
-            android:title="@string/pref_free_text" />
+        <Preference android:key="pref_departed_option" />
     </PreferenceCategory>
 </PreferenceScreen>

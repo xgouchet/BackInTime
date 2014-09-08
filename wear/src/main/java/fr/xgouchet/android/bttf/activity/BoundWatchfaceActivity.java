@@ -28,7 +28,7 @@ public abstract class BoundWatchfaceActivity extends GearsWatchfaceActivity impl
 
     private GoogleApiClient mGoogleApiClient;
     private WearableConnectionHandler mWearableConnectionHandler;
-    private boolean mConnected;
+    private boolean mRequestConfigWhenConnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +43,13 @@ public abstract class BoundWatchfaceActivity extends GearsWatchfaceActivity impl
 
         mGoogleApiClient = builder.build();
 
-
+        mRequestConfigWhenConnected = true;
     }
 
     @Override
     protected void onStart() {
-        super.onStart();
         mGoogleApiClient.connect();
+        super.onStart();
     }
 
     @Override
@@ -91,11 +91,15 @@ public abstract class BoundWatchfaceActivity extends GearsWatchfaceActivity impl
         public void onConnected(Bundle bundle) {
             Log.d("WearableConnectionHandler", "onConnected");
 
+
             // add the listener
             Wearable.DataApi.addListener(mGoogleApiClient, BoundWatchfaceActivity.this);
 
             // get the list of nodes
-            Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).setResultCallback(this);
+            if (mRequestConfigWhenConnected) {
+                mRequestConfigWhenConnected = false;
+                Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).setResultCallback(this);
+            }
         }
 
         @Override
@@ -126,7 +130,6 @@ public abstract class BoundWatchfaceActivity extends GearsWatchfaceActivity impl
 
 
         private void requestWearablePreferences(List<Node> nodes) {
-
             Log.d("BoundWatchfaceActivity", "requestWearablePreferences (" + nodes.size() + " nodes)");
 
             for (Node node : nodes) {

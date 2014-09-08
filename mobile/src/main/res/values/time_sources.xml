@@ -5,6 +5,7 @@
         <item>calendar</item>
         <item>battery</item>
         <item>timezone</item>
+        <item>freetime</item>
         <item>freetext</item>
     </string-array>
 
@@ -12,6 +13,7 @@
         <item>Next calendar event</item>
         <item>Battery time</item>
         <item>Time Zone</item>
+        <item>Free Time and Date</item>
         <item>Free Text</item>
     </string-array>
 
@@ -19,6 +21,7 @@
         <item>Last calendar event</item>
         <item>Boot time</item>
         <item>Time Zone</item>
+        <item>Free Time and Date</item>
         <item>Free Text</item>
     </string-array>
 </resources>

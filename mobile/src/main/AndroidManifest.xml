@@ -81,8 +81,17 @@
             </intent-filter>
         </receiver>
 
+        <!-- Service listenning to messages from the wearable to sync preferences -->
+        <service android:name=".background.MessagesListenerService">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+            </intent-filter>
+        </service>
+
         <!-- Meta data needed to communicate between the device and any linked wearable -->
-        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 
