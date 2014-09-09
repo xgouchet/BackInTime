@@ -2,5 +2,10 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ListPreference />
+    <ListPreference
+        android:defaultValue="bow"
+        android:entries="@array/theme_names"
+        android:entryValues="@array/theme_ids"
+        android:key="pref_clock_theme"/>
+
 </PreferenceScreen>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widgetLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="fill"
+    android:padding="@dimen/clocktower_widget_margin" >
+
+    <AnalogClock
+        android:layout_gravity="center"
+        android:id="@+id/clock"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:dial="@drawable/clock_tower_background_bow"
+        android:hand_hour="@drawable/clock_tower_hand_hour_b"
+        android:hand_minute="@drawable/clock_tower_hand_minute_b" />
+
+</FrameLayout>

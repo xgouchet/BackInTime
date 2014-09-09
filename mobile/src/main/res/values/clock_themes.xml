@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="theme_ids">
+        <item>bow</item>
+        <item>bot</item>
+        <item>wob</item>
+        <item>wot</item>
+    </string-array>
+
+    <string-array name="theme_names">
+        <item>Black on white</item>
+        <item>Black on transparent</item>
+        <item>White on black</item>
+        <item>White on transparent</item>
+    </string-array>
+
+</resources>

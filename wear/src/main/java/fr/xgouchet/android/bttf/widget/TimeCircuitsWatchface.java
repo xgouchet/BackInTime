@@ -13,7 +13,7 @@ import java.util.Calendar;
 
 import fr.xgouchet.android.bttf.R;
 import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsRenderer;
-import fr.xgouchet.android.bttf.timecircuits.TimeSource;
+import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsSource;
 
 
 public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
@@ -129,8 +129,8 @@ public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
 
         Log.d("TimeCircuitsWatchface", "onTimeChanged");
 
-        mDestinationTime = TimeSource.getDestinationTime(getContext());
-        mDepartedTime = TimeSource.getDepartedTime(getContext());
+        mDestinationTime = TimeCircuitsSource.getDestinationTime(getContext());
+        mDepartedTime = TimeCircuitsSource.getDepartedTime(getContext());
 
         updateDashboard();
     }

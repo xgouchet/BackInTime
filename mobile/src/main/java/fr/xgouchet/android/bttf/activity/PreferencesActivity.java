@@ -9,6 +9,7 @@ import java.util.List;
 
 import fr.xgouchet.android.bttf.R;
 import fr.xgouchet.android.bttf.common.WearableUtils;
+import fr.xgouchet.android.bttf.fragments.ClockTowerPreferencesFragment;
 import fr.xgouchet.android.bttf.fragments.TimeCircuitsPreferencesFragment;
 
 /**
@@ -61,6 +62,10 @@ public class PreferencesActivity extends PreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         if (TimeCircuitsPreferencesFragment.class.getName().equals(fragmentName))
             return true;
+
+        if (ClockTowerPreferencesFragment.class.getName().equals(fragmentName))
+            return true;
+
         return false;
     }
 

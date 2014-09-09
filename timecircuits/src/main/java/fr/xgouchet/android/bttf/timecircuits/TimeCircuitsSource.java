@@ -20,7 +20,7 @@ import fr.xgouchet.android.bttf.common.PreferencesUtils;
 /**
  *
  */
-public class TimeSource {
+public class TimeCircuitsSource {
 
     private static final long MIN_MS = 60 * 1000;
     private static final long HOUR_MS = 60 * MIN_MS;
@@ -53,17 +53,17 @@ public class TimeSource {
      * @return the destination time to display
      */
     public static Object getDestinationTime(Context context) {
-        String source = PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DESTINATION_SOURCE);
+        String source = PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DESTINATION_SOURCE);
         if (source != null) {
             switch (source) {
-                case PreferencesUtils.SOURCE_FREETEXT:
-                    return PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DESTINATION_FREETEXT);
-                case PreferencesUtils.SOURCE_CALENDAR:
-                    return TimeSource.getNextCalendarEvent(context);
-                case PreferencesUtils.SOURCE_TIMEZONE:
-                    return TimeSource.getTimeZoneTime(PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DESTINATION_TIMEZONE));
-                case PreferencesUtils.SOURCE_BATTERY:
-                    return TimeSource.getExpectedShutdownTime(context);
+                case TimeCircuitsUtils.SOURCE_FREETEXT:
+                    return PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DESTINATION_FREETEXT);
+                case TimeCircuitsUtils.SOURCE_CALENDAR:
+                    return TimeCircuitsSource.getNextCalendarEvent(context);
+                case TimeCircuitsUtils.SOURCE_TIMEZONE:
+                    return TimeCircuitsSource.getTimeZoneTime(PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DESTINATION_TIMEZONE));
+                case TimeCircuitsUtils.SOURCE_BATTERY:
+                    return TimeCircuitsSource.getExpectedShutdownTime(context);
                 default:
                     return null;
             }
@@ -77,18 +77,18 @@ public class TimeSource {
      * @return the departed time to display
      */
     public static Object getDepartedTime(Context context) {
-        String source = PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DEPARTED_SOURCE);
+        String source = PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DEPARTED_SOURCE);
         if (source != null) {
             switch (source) {
-                case PreferencesUtils.SOURCE_BATTERY:
-                    return TimeSource.getBootTime();
-                case PreferencesUtils.SOURCE_CALENDAR:
-                    return TimeSource.getLastCalendarEvent(context);
-                case PreferencesUtils.SOURCE_FREETEXT:
-                    return PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DEPARTED_FREETEXT);
-                case PreferencesUtils.SOURCE_TIMEZONE:
-                    return TimeSource.getTimeZoneTime(PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DEPARTED_TIMEZONE));
-                case PreferencesUtils.SOURCE_FREETIME:
+                case TimeCircuitsUtils.SOURCE_BATTERY:
+                    return TimeCircuitsSource.getBootTime();
+                case TimeCircuitsUtils.SOURCE_CALENDAR:
+                    return TimeCircuitsSource.getLastCalendarEvent(context);
+                case TimeCircuitsUtils.SOURCE_FREETEXT:
+                    return PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DEPARTED_FREETEXT);
+                case TimeCircuitsUtils.SOURCE_TIMEZONE:
+                    return TimeCircuitsSource.getTimeZoneTime(PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DEPARTED_TIMEZONE));
+                case TimeCircuitsUtils.SOURCE_FREETIME:
                     // TODO get free time from preferences
                 default:
                     return null;
@@ -148,7 +148,7 @@ public class TimeSource {
 
         // fail safe if no event available
         if (nextEventTimestamp == Long.MAX_VALUE) {
-            String nextEventPref = PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DESTINATION_CALENDAR);
+            String nextEventPref = PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DESTINATION_CALENDAR);
             try {
                 nextEventTimestamp = Long.valueOf(nextEventPref);
             } catch (Exception e) {
@@ -210,7 +210,7 @@ public class TimeSource {
 
         // fail safe if no event available
         if (lastEventTimestamp == Long.MIN_VALUE) {
-            String lastEventPref = PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DEPARTED_CALENDAR);
+            String lastEventPref = PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DEPARTED_CALENDAR);
             try {
                 lastEventTimestamp = Long.valueOf(lastEventPref);
             } catch (Exception e) {
@@ -230,9 +230,8 @@ public class TimeSource {
     private static Calendar getTimeZoneTime(String timeZoneId) {
 
         TimeZone timeZone = TimeZone.getTimeZone(timeZoneId);
-        Calendar result = Calendar.getInstance(timeZone);
 
-        return result;
+        return Calendar.getInstance(timeZone);
     }
 
     /**
@@ -278,22 +277,24 @@ public class TimeSource {
 
         IntentFilter batteryBroadcast = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryIntent = context.registerReceiver(null, batteryBroadcast);
-
-        double rawLevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        double scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         double level = -1;
 
-        if (rawLevel >= 0 && scale > 0) {
-            level = rawLevel / scale;
+        if (batteryIntent != null) {
+            double rawLevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            double scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+            if (rawLevel >= 0 && scale > 0) {
+                level = rawLevel / scale;
+            }
         }
 
         return level;
     }
 
     public static boolean needCalendarsEvents(Context context) {
-        String destinationSource = PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DESTINATION_SOURCE);
-        String departedSource = PreferencesUtils.getStringPreference(context, PreferencesUtils.PREF_DEPARTED_SOURCE);
+        String destinationSource = PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DESTINATION_SOURCE);
+        String departedSource = PreferencesUtils.getStringPreference(context, TimeCircuitsUtils.PREF_DEPARTED_SOURCE);
 
-        return (PreferencesUtils.SOURCE_CALENDAR.equals(destinationSource) || PreferencesUtils.SOURCE_CALENDAR.equals(departedSource));
+        return (TimeCircuitsUtils.SOURCE_CALENDAR.equals(destinationSource) || TimeCircuitsUtils.SOURCE_CALENDAR.equals(departedSource));
     }
 }

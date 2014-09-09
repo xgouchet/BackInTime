@@ -14,7 +14,7 @@ import java.util.Queue;
 
 import fr.xgouchet.android.bttf.common.WearableConnectionHandler;
 import fr.xgouchet.android.bttf.common.WearableUtils;
-import fr.xgouchet.android.bttf.timecircuits.TimeSource;
+import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsSource;
 
 /**
  * Service listening to the Messages from a connected Wearable
@@ -67,8 +67,8 @@ public class MessagesListenerService extends WearableListenerService {
             public void run() {
 
                 ByteBuffer buffer = ByteBuffer.allocate(2 * Long.SIZE);
-                buffer.putLong(TimeSource.getLastCalendarEvent(MessagesListenerService.this).getTimeInMillis());
-                buffer.putLong(TimeSource.getNextCalendarEvent(MessagesListenerService.this).getTimeInMillis());
+                buffer.putLong(TimeCircuitsSource.getLastCalendarEvent(MessagesListenerService.this).getTimeInMillis());
+                buffer.putLong(TimeCircuitsSource.getNextCalendarEvent(MessagesListenerService.this).getTimeInMillis());
 
                 WearableUtils.sendWearableMessage(mGoogleApiClient, WearableUtils.PATH_CALENDAR, buffer.array());
             }

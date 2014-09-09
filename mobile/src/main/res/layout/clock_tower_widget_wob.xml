@@ -11,8 +11,8 @@
         android:id="@+id/clock"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:dial="@drawable/clock_tower_background_alpha"
-        android:hand_hour="@drawable/clock_tower_hand_hour"
-        android:hand_minute="@drawable/clock_tower_hand_minute" />
+        android:dial="@drawable/clock_tower_background_wob"
+        android:hand_hour="@drawable/clock_tower_hand_hour_w"
+        android:hand_minute="@drawable/clock_tower_hand_minute_w" />
 
 </FrameLayout>

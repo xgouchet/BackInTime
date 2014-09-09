@@ -16,7 +16,7 @@ import java.util.Calendar;
 
 import fr.xgouchet.android.bttf.R;
 import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsRenderer;
-import fr.xgouchet.android.bttf.timecircuits.TimeSource;
+import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsSource;
 import fr.xgouchet.android.bttf.utils.WidgetUtils;
 import fr.xgouchet.android.bttf.widget.TimeCircuitsWidgetProvider;
 
@@ -133,8 +133,8 @@ public class TimeCircuitsUpdateThread extends Thread {
 
     private void updateTimes(long now) {
         mPresentTime.setTimeInMillis(now);
-        mDestinationTime = TimeSource.getDestinationTime(mContext);
-        mDepartedTime = TimeSource.getDepartedTime(mContext);
+        mDestinationTime = TimeCircuitsSource.getDestinationTime(mContext);
+        mDepartedTime = TimeCircuitsSource.getDepartedTime(mContext);
     }
 
 

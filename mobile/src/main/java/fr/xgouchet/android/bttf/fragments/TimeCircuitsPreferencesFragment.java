@@ -18,6 +18,7 @@ import fr.xgouchet.android.bttf.activity.PreferencesActivity;
 import fr.xgouchet.android.bttf.background.TimeCircuitsService;
 import fr.xgouchet.android.bttf.common.PreferencesUtils;
 import fr.xgouchet.android.bttf.common.WearableUtils;
+import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsUtils;
 
 /**
  * Fragment displaying preferences for the TimeCircuits widget / watchface
@@ -40,12 +41,12 @@ public class TimeCircuitsPreferencesFragment extends PreferenceFragment implemen
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
 
 
-        mDestTimeSource = (ListPreference) findPreference(PreferencesUtils.PREF_DESTINATION_SOURCE);
-        mDepartedTimeSource = (ListPreference) findPreference(PreferencesUtils.PREF_DEPARTED_SOURCE);
+        mDestTimeSource = (ListPreference) findPreference(TimeCircuitsUtils.PREF_DESTINATION_SOURCE);
+        mDepartedTimeSource = (ListPreference) findPreference(TimeCircuitsUtils.PREF_DEPARTED_SOURCE);
 
-        mDestOption = findPreference(PreferencesUtils.PREF_DESTINATION_OPTION);
+        mDestOption = findPreference(TimeCircuitsUtils.PREF_DESTINATION_OPTION);
         mDestOption.setOnPreferenceClickListener(this);
-        mDepartedOption = findPreference(PreferencesUtils.PREF_DEPARTED_OPTION);
+        mDepartedOption = findPreference(TimeCircuitsUtils.PREF_DEPARTED_OPTION);
         mDepartedOption.setOnPreferenceClickListener(this);
     }
 
@@ -90,31 +91,31 @@ public class TimeCircuitsPreferencesFragment extends PreferenceFragment implemen
         String summary = "";
 
         switch (source.getValue()) {
-            case PreferencesUtils.SOURCE_BATTERY:
+            case TimeCircuitsUtils.SOURCE_BATTERY:
                 titleResId = R.string.pref_battery;
                 break;
-            case PreferencesUtils.SOURCE_CALENDAR:
+            case TimeCircuitsUtils.SOURCE_CALENDAR:
                 titleResId = R.string.pref_calendar;
                 break;
-            case PreferencesUtils.SOURCE_FREETEXT:
+            case TimeCircuitsUtils.SOURCE_FREETEXT:
                 optionsEnabled = true;
                 titleResId = R.string.pref_free_text;
-                summary = PreferencesUtils.getStringPreference(context, base + PreferencesUtils.SOURCE_FREETEXT, "");
+                summary = PreferencesUtils.getStringPreference(context, base + TimeCircuitsUtils.SOURCE_FREETEXT, "");
 
                 summary = String.format("%s             ", summary).toUpperCase();
                 summary = (summary.substring(0, 3) + " " + summary.substring(3, 5) + " "
                         + summary.substring(5, 9) + " " + summary.substring(9, 11) + " "
                         + summary.substring(11, 13));
                 break;
-            case PreferencesUtils.SOURCE_FREETIME:
+            case TimeCircuitsUtils.SOURCE_FREETIME:
                 optionsEnabled = true;
                 titleResId = R.string.pref_free_time;
                 summary = "?";
                 break;
-            case PreferencesUtils.SOURCE_TIMEZONE:
+            case TimeCircuitsUtils.SOURCE_TIMEZONE:
                 optionsEnabled = true;
                 titleResId = R.string.pref_time_zone;
-                summary = PreferencesUtils.getStringPreference(context, base + PreferencesUtils.SOURCE_TIMEZONE);
+                summary = PreferencesUtils.getStringPreference(context, base + TimeCircuitsUtils.SOURCE_TIMEZONE);
                 break;
         }
 
@@ -136,13 +137,13 @@ public class TimeCircuitsPreferencesFragment extends PreferenceFragment implemen
         Log.d("TimeCircuitsPreferencesFragment", sourceKey + " : " + source);
 
         switch (source) {
-            case PreferencesUtils.SOURCE_FREETEXT:
+            case TimeCircuitsUtils.SOURCE_FREETEXT:
                 promptFreeText(valueKey);
                 break;
-            case PreferencesUtils.SOURCE_FREETIME:
+            case TimeCircuitsUtils.SOURCE_FREETIME:
                 // TODO prompt for free time and date
                 break;
-            case PreferencesUtils.SOURCE_TIMEZONE:
+            case TimeCircuitsUtils.SOURCE_TIMEZONE:
                 promptTimeZone(valueKey);
                 break;
         }
