@@ -1,1 +1,1 @@
-include ':mobile', ':wear', ':gears', ':timecircuits', ':clocktower', ':viewpagerindicator'
+include ':mobile', ':wear', ':gears', ':timecircuits', ':clocktower', ':viewpagerindicator', ':common'

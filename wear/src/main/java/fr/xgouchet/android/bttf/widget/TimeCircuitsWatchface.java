@@ -10,10 +10,10 @@ import com.twotoasters.watchface.gears.widget.IWatchface;
 import com.twotoasters.watchface.gears.widget.Watch;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import fr.xgouchet.android.bttf.R;
 import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsRenderer;
+import fr.xgouchet.android.bttf.timecircuits.TimeSource;
 
 
 public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
@@ -27,7 +27,8 @@ public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
     private boolean mActive;
     private TimeCircuitsRenderer mRenderer;
 
-    private Calendar mDestinationTime, mPresentTime, mDepartedTime;
+    private Calendar mPresentTime;
+    private Object mDestinationTime, mDepartedTime;
 
 
     public TimeCircuitsWatchface(Context context) {
@@ -103,17 +104,12 @@ public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
 
     @Override
     public void onTimeChanged(Calendar time) {
-        if (!mInflated) {
-            return;
-        }
-
-        Log.d("TimeCircuitsWatchface", "onTimeChanged");
-
-        mDestinationTime = new GregorianCalendar(1985, 9, 26, 1, 20, 0);
         mPresentTime = time;
-        mDepartedTime = new GregorianCalendar(1955, 10, 12, 22, 4, 0);
+        update();
+    }
 
-        updateDashboard();
+    public void onPreferenceChanged() {
+        update();
     }
 
     @Override
@@ -126,11 +122,26 @@ public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
         updateDashboard();
     }
 
+    private void update() {
+        if (!mInflated) {
+            return;
+        }
+
+        Log.d("TimeCircuitsWatchface", "onTimeChanged");
+
+        mDestinationTime = TimeSource.getDestinationTime(getContext());
+        mDepartedTime = TimeSource.getDepartedTime(getContext());
+
+        updateDashboard();
+    }
+
     private void updateDashboard() {
+
         mRenderer.renderDashboard(getContext(), mDestinationTime, mPresentTime, mDepartedTime, !mActive);
         mDashboard.setImageBitmap(mRenderer.getBitmap());
         invalidate();
     }
+
 
     @Override
     public boolean handleSecondsInDimMode() {

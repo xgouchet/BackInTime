@@ -84,6 +84,7 @@
     <orderEntry type="library" exported="" name="support-v4-20.0.0" level="project" />
     <orderEntry type="module" module-name="clocktower" exported="" />
     <orderEntry type="module" module-name="timecircuits" exported="" />
+    <orderEntry type="module" module-name="common" exported="" />
     <orderEntry type="module" module-name="viewpagerindicator" exported="" />
   </component>
 </module>

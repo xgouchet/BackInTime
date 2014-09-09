@@ -3,100 +3,109 @@ package fr.xgouchet.android.bttf.background;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.MessageEvent;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
-import fr.xgouchet.android.bttf.utils.SettingsUtils;
+import java.nio.ByteBuffer;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+
+import fr.xgouchet.android.bttf.common.WearableConnectionHandler;
+import fr.xgouchet.android.bttf.common.WearableUtils;
+import fr.xgouchet.android.bttf.timecircuits.TimeSource;
 
 /**
  * Service listening to the Messages from a connected Wearable
  */
 public class MessagesListenerService extends WearableListenerService {
 
-
+    private Queue<Runnable> mOnConnectActions = new LinkedList<>();
     private GoogleApiClient mGoogleApiClient;
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         super.onMessageReceived(messageEvent);
 
-        if (messageEvent.getPath().equals("/REQUEST_CONFIG")) {
+        Log.i("MessagesListenerService", "onMessageReceived");
 
-            Log.d("MessagesListenerService", "Node requested the current config !");
-            connectAndSendPreferences();
 
+        if (messageEvent.getPath() == null) {
+            Log.i("MessagesListenerService", "onMessageReceived with null path");
+            return;
         }
+
+        switch (messageEvent.getPath()) {
+            case WearableUtils.PATH_UPDATE_REQUEST:
+                Log.w("MessagesListenerService", "Request for preferences update");
+                connectAndSendPreferences();
+                break;
+            case WearableUtils.PATH_CALENDAR_REQUEST:
+                Log.w("MessagesListenerService", "Request for calendar update");
+                connectAndSendCalendar();
+                break;
+            default:
+                Log.w("MessagesListenerService", "onMessageReceived with unknown path : " + messageEvent.getPath());
+                break;
+        }
+
     }
 
     private void connectAndSendPreferences() {
+        connectAndPerformAction(new Runnable() {
+            @Override
+            public void run() {
+                WearableUtils.updateWearablePreferences(MessagesListenerService.this, mGoogleApiClient);
+            }
+        });
+    }
+
+    private void connectAndSendCalendar() {
+        connectAndPerformAction(new Runnable() {
+            @Override
+            public void run() {
+
+                ByteBuffer buffer = ByteBuffer.allocate(2 * Long.SIZE);
+                buffer.putLong(TimeSource.getLastCalendarEvent(MessagesListenerService.this).getTimeInMillis());
+                buffer.putLong(TimeSource.getNextCalendarEvent(MessagesListenerService.this).getTimeInMillis());
+
+                WearableUtils.sendWearableMessage(mGoogleApiClient, WearableUtils.PATH_CALENDAR, buffer.array());
+            }
+        });
+    }
+
+
+    private void connectAndPerformAction(Runnable action) {
+        // create client if needed
         if (mGoogleApiClient == null) {
-            WearableConnectionHandler mWearableConnectionHandler = new WearableConnectionHandler();
-
-            GoogleApiClient.Builder builder = new GoogleApiClient.Builder(this);
-            builder.addConnectionCallbacks(mWearableConnectionHandler);
-            builder.addOnConnectionFailedListener(mWearableConnectionHandler);
-            builder.addApi(Wearable.API);
-
-            mGoogleApiClient = builder.build();
+            mGoogleApiClient = WearableUtils.buildWearableClient(this, mWearableConnectionHandler);
         }
 
+        // connect if needed
         if (mGoogleApiClient.isConnected()) {
-            updateWearablePreferences();
+            Log.d("MessagesListenerService", "Already connected, update prefs");
+            action.run();
         } else if (!mGoogleApiClient.isConnecting()) {
+            mOnConnectActions.add(action);
             mGoogleApiClient.connect();
         }
     }
 
-    /**
-     * If a wearable is connected, send the current preferences to it
-     */
-    private void updateWearablePreferences() {
-
-        // Create the request
-        final PutDataMapRequest putRequest = PutDataMapRequest.create("/CONFIG");
-        // Fill it with the current values
-        SettingsUtils.fillDataMap(this, putRequest.getDataMap());
-
-        // send to the wearable
-        Wearable.DataApi.putDataItem(mGoogleApiClient, putRequest.asPutDataRequest());
-    }
-
-    /**
-     * The class handling connection with the wearable
-     */
-    public class WearableConnectionHandler implements GoogleApiClient.ConnectionCallbacks,
-            GoogleApiClient.OnConnectionFailedListener {
-
+    private WearableConnectionHandler mWearableConnectionHandler = new WearableConnectionHandler() {
         @Override
         public void onConnected(Bundle bundle) {
-            Log.d("WearableConnectionHandler", "onConnected");
-            updateWearablePreferences();
-        }
+            super.onConnected(bundle);
 
-        @Override
-        public void onConnectionSuspended(int cause) {
-            Log.w("WearableConnectionHandler", "onConnectionSuspended ");
+            Iterator<Runnable> actions = mOnConnectActions.iterator();
 
-            switch (cause) {
-                case CAUSE_NETWORK_LOST:
-                    Log.i("WearableConnectionHandler", "Network Lost");
-                    break;
-                case CAUSE_SERVICE_DISCONNECTED:
-                    Log.i("WearableConnectionHandler", "Service Disconnected");
-                    break;
-                default:
-                    Log.i("WearableConnectionHandler", "Cause unknown");
-                    break;
+            while (actions.hasNext()) {
+                Runnable action = actions.next();
+                action.run();
+                actions.remove();
             }
         }
+    };
 
-        @Override
-        public void onConnectionFailed(ConnectionResult connectionResult) {
-            Log.w("WearableConnectionHandler", "onConnectionFailed " + connectionResult.getErrorCode());
-        }
-    }
+
 }

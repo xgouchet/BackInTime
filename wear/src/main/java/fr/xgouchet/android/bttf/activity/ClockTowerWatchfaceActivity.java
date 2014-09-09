@@ -1,7 +1,5 @@
 package fr.xgouchet.android.bttf.activity;
 
-import com.google.android.gms.wearable.DataMap;
-import com.twotoasters.watchface.gears.activity.GearsWatchfaceActivity;
 import com.twotoasters.watchface.gears.widget.IWatchface;
 
 import fr.xgouchet.android.bttf.R;
@@ -18,7 +16,10 @@ public class ClockTowerWatchfaceActivity extends BoundWatchfaceActivity {
     }
 
     @Override
-    protected void onPreferencesMapReceived(DataMap map) {
+    protected void onPreferencesChanged() {
+    }
 
+    @Override
+    protected void onMessageReceived(String path, byte[] data) {
     }
 }

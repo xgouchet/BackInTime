@@ -25,6 +25,7 @@ dependencies {
     compile project(':gears')
     compile project(':timecircuits')
     compile project(':clocktower')
+    compile project(':common')
     compile 'com.google.android.support:wearable:+'
     compile 'com.google.android.gms:play-services-wearable:+'
 }

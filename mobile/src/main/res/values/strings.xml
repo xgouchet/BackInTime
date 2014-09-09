@@ -42,6 +42,7 @@
     <string name="pref_tc_destination_header">Destination time</string>
     <string name="pref_tc_destination_source">Destination time source</string>
     <string name="pref_tc_departed_header">Last departed time</string>
+    <string name="pref_tc_departed_source">Last departed time source</string>
     <string name="pref_time_zone">Time Zone</string>
     <string name="pref_free_time">Free Time and Date</string>
     <string name="pref_free_text">Free Text</string>

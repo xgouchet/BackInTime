@@ -2,19 +2,14 @@ package fr.xgouchet.android.bttf.activity;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.Wearable;
 
 import java.util.List;
 
 import fr.xgouchet.android.bttf.R;
+import fr.xgouchet.android.bttf.common.WearableUtils;
 import fr.xgouchet.android.bttf.fragments.TimeCircuitsPreferencesFragment;
-import fr.xgouchet.android.bttf.utils.SettingsUtils;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -36,26 +31,21 @@ public class PreferencesActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        WearableConnectionHandler mWearableConnectionHandler = new WearableConnectionHandler();
-
-        GoogleApiClient.Builder builder = new GoogleApiClient.Builder(this);
-        builder.addConnectionCallbacks(mWearableConnectionHandler);
-        builder.addOnConnectionFailedListener(mWearableConnectionHandler);
-        builder.addApi(Wearable.API);
-
-        mGoogleApiClient = builder.build();
+        mGoogleApiClient = WearableUtils.buildWearableClient(this, null);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        if ((mGoogleApiClient != null) && !(mGoogleApiClient.isConnected() || mGoogleApiClient.isConnecting())) {
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (null != mGoogleApiClient && mGoogleApiClient.isConnected()) {
+        if ((mGoogleApiClient != null) && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
     }
@@ -74,60 +64,8 @@ public class PreferencesActivity extends PreferenceActivity {
         return false;
     }
 
-    /**
-     * If a wearable is connected, send the current preferences to it
-     */
-    public void updateWearablePreferences() {
-        if ((mGoogleApiClient == null) || !mGoogleApiClient.isConnected()) {
-            Log.w("PreferenceActivity", "Wearable not connected");
-            return;
-        }
-
-        // Warn the user we're sending data now
-        Toast.makeText(this, R.string.toast_updating_wearable_preferences, Toast.LENGTH_LONG).show();
-
-        // Create the request
-        final PutDataMapRequest putRequest = PutDataMapRequest.create("/CONFIG");
-        // Fill it with the current values
-        SettingsUtils.fillDataMap(this, putRequest.getDataMap());
-
-        // send to the wearable
-        Wearable.DataApi.putDataItem(mGoogleApiClient, putRequest.asPutDataRequest());
-    }
-
-
-    /**
-     * The class handling connection with the wearable
-     */
-    public class WearableConnectionHandler implements GoogleApiClient.ConnectionCallbacks,
-            GoogleApiClient.OnConnectionFailedListener {
-
-        @Override
-        public void onConnected(Bundle bundle) {
-            Log.d("WearableConnectionHandler", "onConnected");
-        }
-
-        @Override
-        public void onConnectionSuspended(int cause) {
-            Log.w("WearableConnectionHandler", "onConnectionSuspended ");
-
-            switch (cause) {
-                case CAUSE_NETWORK_LOST:
-                    Log.i("WearableConnectionHandler", "Network Lost");
-                    break;
-                case CAUSE_SERVICE_DISCONNECTED:
-                    Log.i("WearableConnectionHandler", "Service Disconnected");
-                    break;
-                default:
-                    Log.i("WearableConnectionHandler", "Cause unknown");
-                    break;
-            }
-        }
-
-        @Override
-        public void onConnectionFailed(ConnectionResult connectionResult) {
-            Log.w("WearableConnectionHandler", "onConnectionFailed " + connectionResult.getErrorCode());
-        }
+    public GoogleApiClient getGoogleApiClient() {
+        return mGoogleApiClient;
     }
 
 

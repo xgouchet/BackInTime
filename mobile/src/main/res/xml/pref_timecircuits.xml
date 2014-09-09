@@ -23,7 +23,7 @@
             android:entries="@array/departed_sources"
             android:entryValues="@array/sources_ids"
             android:key="pref_departed_source"
-            android:title="@string/pref_tc_destination_source" />
+            android:title="@string/pref_tc_departed_source" />
 
         <Preference android:key="pref_departed_option" />
     </PreferenceCategory>
