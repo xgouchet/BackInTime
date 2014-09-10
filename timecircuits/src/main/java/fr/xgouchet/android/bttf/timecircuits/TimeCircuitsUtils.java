@@ -19,6 +19,8 @@ public class TimeCircuitsUtils {
     public static final String PREF_DEPARTED_OPTION = "pref_departed_option";
     public static final String PREF_DEPARTED_CALENDAR = "pref_departed_calendar";
 
+    public static final String PREF_WATCHFACE_BACKGROUND = "pref_timecircuits_watchface_background";
+
     
     public static final String SOURCE_CALENDAR = "calendar";
     public static final String SOURCE_BATTERY = "battery";

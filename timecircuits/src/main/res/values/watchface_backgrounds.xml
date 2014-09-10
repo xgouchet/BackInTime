@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="clocktower_background_ids">
+        <item>black</item>
+        <item>leather</item>
+        <item>metal</item>
+        <item>auburn</item>
+    </array>
+
+    <array name="clocktower_background_names">
+        <item>Black</item>
+        <item>Leather</item>
+        <item>Metal</item>
+        <item>Auburn</item>
+    </array>
+</resources>

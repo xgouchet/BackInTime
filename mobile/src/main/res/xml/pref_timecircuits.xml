@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/time_circuits">
+                  android:title="@string/time_circuits">
+
+    <ListPreference
+        android:defaultValue="black"
+        android:entries="@array/timecircuits_background_names"
+        android:entryValues="@array/timecircuits_background_ids"
+        android:key="pref_timecircuits_watchface_background"
+        android:title="@string/pref_watchface_background"/>
 
     <PreferenceCategory android:title="@string/pref_tc_destination_header">
 
@@ -10,9 +17,9 @@
             android:entries="@array/destination_sources"
             android:entryValues="@array/sources_ids"
             android:key="pref_destination_source"
-            android:title="@string/pref_tc_destination_source" />
+            android:title="@string/pref_tc_destination_source"/>
 
-        <Preference android:key="pref_destination_option" />
+        <Preference android:key="pref_destination_option"/>
 
     </PreferenceCategory>
 
@@ -23,8 +30,8 @@
             android:entries="@array/departed_sources"
             android:entryValues="@array/sources_ids"
             android:key="pref_departed_source"
-            android:title="@string/pref_tc_departed_source" />
+            android:title="@string/pref_tc_departed_source"/>
 
-        <Preference android:key="pref_departed_option" />
+        <Preference android:key="pref_departed_option"/>
     </PreferenceCategory>
 </PreferenceScreen>

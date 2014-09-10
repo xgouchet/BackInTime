@@ -20,7 +20,8 @@ import fr.xgouchet.android.bttf.widget.ClockTowerWidgetProvider;
 public class ClockTowerPreferencesFragment extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private ListPreference mTheme;
+    private ListPreference mFrameTheme;
+    private ListPreference mWatchfaceBackground;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,8 @@ public class ClockTowerPreferencesFragment extends PreferenceFragment
         PreferenceManager.getDefaultSharedPreferences(context).registerOnSharedPreferenceChangeListener(this);
 
 
-        mTheme = (ListPreference) findPreference(ClockTowerUtils.PREF_CLOCK_THEME);
+        mFrameTheme = (ListPreference) findPreference(ClockTowerUtils.PREF_CLOCK_FRAME_THEME);
+        mWatchfaceBackground = (ListPreference) findPreference(ClockTowerUtils.PREF_CLOCK_WATCHFACE_BACKGROUND);
     }
 
     @Override
@@ -62,7 +64,8 @@ public class ClockTowerPreferencesFragment extends PreferenceFragment
     private void updatePrefsUI() {
 
 
-        mTheme.setSummary(mTheme.getEntry());
+        mFrameTheme.setSummary(mFrameTheme.getEntry());
+        mWatchfaceBackground.setSummary(mWatchfaceBackground.getEntry());
     }
 
 }

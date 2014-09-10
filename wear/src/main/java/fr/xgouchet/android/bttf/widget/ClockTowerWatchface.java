@@ -12,10 +12,12 @@ import com.twotoasters.watchface.gears.widget.Watch;
 import java.util.Calendar;
 
 import fr.xgouchet.android.bttf.R;
+import fr.xgouchet.android.bttf.WatchfaceUtils;
+import fr.xgouchet.android.bttf.clocktower.ClockTowerUtils;
 
 public class ClockTowerWatchface extends FrameLayout implements IWatchface {
 
-    private ImageView mBackground;
+    private ImageView mFrame;
     private ImageView mHandHour;
     private ImageView mHandMinute;
 
@@ -24,8 +26,6 @@ public class ClockTowerWatchface extends FrameLayout implements IWatchface {
     private boolean mInflated;
     private boolean mActive;
 
-    private int mLastHour = -1;
-    private int mLastMinute = -1;
 
     public ClockTowerWatchface(Context context) {
         super(context);
@@ -57,7 +57,7 @@ public class ClockTowerWatchface extends FrameLayout implements IWatchface {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mBackground = (ImageView) findViewById(R.id.background);
+        mFrame = (ImageView) findViewById(R.id.frame);
         mHandHour = (ImageView) findViewById(R.id.hand_hour);
         mHandMinute = (ImageView) findViewById(R.id.hand_minute);
 
@@ -103,9 +103,6 @@ public class ClockTowerWatchface extends FrameLayout implements IWatchface {
         int hr = time.get(Calendar.HOUR_OF_DAY) % 12;
         int min = time.get(Calendar.MINUTE);
 
-        mLastHour = hr;
-        mLastMinute = min;
-
         rotateHands(hr, min);
         invalidate();
     }
@@ -123,10 +120,28 @@ public class ClockTowerWatchface extends FrameLayout implements IWatchface {
 
     private void setImageResources() {
         if (mInflated) {
-            mBackground.setImageResource(mActive ? R.drawable.clock_tower_background_black : R.drawable.clock_tower_background_dimmed);
-            mHandHour.setImageResource(mActive ? R.drawable.clock_tower_hand_hour : R.drawable.clock_tower_hand_hour_dimmed);
-            mHandMinute.setImageResource(mActive ? R.drawable.clock_tower_hand_minute : R.drawable.clock_tower_hand_minute_dimmed);
+            int frame, hour, minute, background;
+            Context context = getContext();
+
+            if (mActive) {
+                frame = ClockTowerUtils.getFrameResource(context);
+                hour = ClockTowerUtils.getHourHandResource(context);
+                minute = ClockTowerUtils.getMinuteHandResource(context);
+                background = WatchfaceUtils.getWatchfaceBackgroundResource(context, ClockTowerUtils.PREF_CLOCK_WATCHFACE_BACKGROUND);
+            } else {
+                frame = R.drawable.clock_tower_background_d;
+                hour = R.drawable.clock_tower_hand_hour_d;
+                minute = R.drawable.clock_tower_hand_minute_d;
+                background = R.drawable.dashboard_dimmed;
+            }
+
+
+            setBackgroundResource(background);
+            mFrame.setImageResource(frame);
+            mHandHour.setImageResource(hour);
+            mHandMinute.setImageResource(minute);
         }
     }
+
 
 }

@@ -5,6 +5,6 @@
 
 
     <style name="ClockTower.ImageView.Hand">
-        <item name="android:scaleType">center</item>
+        <item name="android:scaleType">fitCenter</item>
     </style>
 </resources>

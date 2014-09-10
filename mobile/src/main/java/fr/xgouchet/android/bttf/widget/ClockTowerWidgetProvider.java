@@ -23,6 +23,10 @@ public class ClockTowerWidgetProvider extends AppWidgetProvider {
      * @param context the current context
      */
     public static void triggerUpdate(Context context) {
+        if (context == null) {
+            return;
+        }
+
         AppWidgetManager awm = AppWidgetManager.getInstance(context.getApplicationContext());
         int ids[] = awm.getAppWidgetIds(new ComponentName(context, ClockTowerWidgetProvider.class));
 
@@ -50,17 +54,17 @@ public class ClockTowerWidgetProvider extends AppWidgetProvider {
         PendingIntent pendingIntent = WidgetUtils.getAlarmClockIntent(context);
 
         int layout;
-        switch (PreferencesUtils.getStringPreference(context, ClockTowerUtils.PREF_CLOCK_THEME, ClockTowerUtils.THEME_BOW)) {
-            case ClockTowerUtils.THEME_BOT:
+        switch (PreferencesUtils.getStringPreference(context, ClockTowerUtils.PREF_CLOCK_FRAME_THEME, ClockTowerUtils.THEME_FRAME_BOW)) {
+            case ClockTowerUtils.THEME_FRAME_BOT:
                 layout = R.layout.clock_tower_widget_bot;
                 break;
-            case ClockTowerUtils.THEME_WOB:
+            case ClockTowerUtils.THEME_FRAME_WOB:
                 layout = R.layout.clock_tower_widget_wob;
                 break;
-            case ClockTowerUtils.THEME_WOT:
+            case ClockTowerUtils.THEME_FRAME_WOT:
                 layout = R.layout.clock_tower_widget_wot;
                 break;
-            case ClockTowerUtils.THEME_BOW:
+            case ClockTowerUtils.THEME_FRAME_BOW:
             default:
                 layout = R.layout.clock_tower_widget_bow;
                 break;

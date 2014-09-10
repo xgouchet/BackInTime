@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="timecircuits_background_ids">
+        <item>black</item>
+        <item>metal</item>
+        <item>rusted</item>
+        <item>scratched</item>
+    </array>
+
+    <array name="timecircuits_background_names">
+        <item>Black</item>
+        <item>Metal</item>
+        <item>Rusted Metal</item>
+        <item>Scratched Metal</item>
+    </array>
+</resources>

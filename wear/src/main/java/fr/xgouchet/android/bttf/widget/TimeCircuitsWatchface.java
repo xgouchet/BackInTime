@@ -12,8 +12,10 @@ import com.twotoasters.watchface.gears.widget.Watch;
 import java.util.Calendar;
 
 import fr.xgouchet.android.bttf.R;
+import fr.xgouchet.android.bttf.WatchfaceUtils;
 import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsRenderer;
 import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsSource;
+import fr.xgouchet.android.bttf.timecircuits.TimeCircuitsUtils;
 
 
 public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
@@ -136,9 +138,15 @@ public class TimeCircuitsWatchface extends FrameLayout implements IWatchface {
     }
 
     private void updateDashboard() {
+        Context context = getContext();
 
-        mRenderer.renderDashboard(getContext(), mDestinationTime, mPresentTime, mDepartedTime, !mActive);
+
+        mRenderer.renderDashboard(context, mDestinationTime, mPresentTime, mDepartedTime, !mActive);
         mDashboard.setImageBitmap(mRenderer.getBitmap());
+
+        int background = WatchfaceUtils.getWatchfaceBackgroundResource(context, TimeCircuitsUtils.PREF_WATCHFACE_BACKGROUND);
+        setBackgroundResource(mActive ? background : R.drawable.background_black);
+
         invalidate();
     }
 
