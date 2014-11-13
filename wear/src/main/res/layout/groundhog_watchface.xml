@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fr.xgouchet.android.backintime.widget.GroundHogWatchFace
+    android:id="@+id/watchface"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:padding="2dp"
+    tools:context=".GroundHogWatchFaceActivity">
+
+    <ImageView
+        android:id="@+id/renderedImage"
+        style="@style/Rendered.ImageView"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:src="@drawable/groundhog_background"/>
+
+</fr.xgouchet.android.backintime.widget.GroundHogWatchFace>

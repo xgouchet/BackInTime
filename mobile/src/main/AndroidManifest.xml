@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fr.xgouchet.android.bttf">
+<manifest
+    package="fr.xgouchet.android.backintime"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.BATTERY_STATS" />
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.BATTERY_STATS"/>
 
     <application
         android:allowBackup="true"
@@ -13,85 +14,11 @@
         android:label="@string/title_app"
         android:theme="@style/BackInTime.Theme">
 
-        <!-- Main Activity -->
-        <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/title_activity_main">
-
-        </activity>
-
-        <!-- Tutorial Activity (for users who never learned to use home screen widgets... sigh -->
-        <activity
-            android:name=".activity.TutorialActivity"
-            android:label="@string/title_activity_tutorial" />
-
-        <activity
-            android:name=".activity.PreferencesActivity"
-            android:label="@string/title_activity_prefs"
-            android:parentActivityName=".activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="fr.xgouchet.android.bttf.activity.MainActivity" />
-        </activity>
-
-        <!-- Clock Tower Widget -->
-        <receiver
-            android:name=".widget.ClockTowerWidgetProvider"
-            android:label="@string/clock_tower">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/clock_tower_provider" />
-        </receiver>
-
-        <!-- Time Circuits Widget -->
-        <receiver
-            android:name=".widget.TimeCircuitsWidgetProvider"
-            android:label="@string/time_circuits">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/time_circuits_provider" />
-        </receiver>
-
-        <!-- Background service to update the time circuits -->
-        <service
-            android:name=".background.TimeCircuitsService"
-            android:exported="true" />
-
-        <!-- receiver to start / stop the above service on screen On/Off -->
-        <receiver
-            android:name=".background.TimeCircuitsScreenOnReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.SCREEN_ON" />
-                <action android:name="android.intent.action.SCREEN_OFF" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Service listenning to messages from the wearable to sync preferences -->
-        <service android:name=".background.MessagesListenerService">
-            <intent-filter>
-                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
-            </intent-filter>
-        </service>
 
         <!-- Meta data needed to communicate between the device and any linked wearable -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
 
     </application>
 

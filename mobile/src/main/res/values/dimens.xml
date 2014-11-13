@@ -4,13 +4,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <!-- Widget dimensions  (size = 70xn - 30) -->
-    <dimen name="timecircuits_widget_margin">0dp</dimen>
-    <dimen name="timecircuits_widget_width">180dp</dimen>
-    <dimen name="timecircuits_widget_height">110dp</dimen>
 
-    <dimen name="clocktower_widget_margin">0dp</dimen>
-    <dimen name="clocktower_widget_width">110dp</dimen>
-    <dimen name="clocktower_widget_height">110dp</dimen>
 
 </resources>

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fr.xgouchet.android.bttf.widget.ClockTowerWatchface
+<fr.xgouchet.android.backintime.widget.ClockTowerWatchface
     android:id="@+id/watchface"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_leather"
+    android:background="@drawable/background"
     tools:context=".WatchfaceActivity">
 
     <ImageView
         android:id="@+id/frame"
         style="@style/ClockTower.ImageView"
-        android:src="@drawable/clock_tower_background_bow"/>
+        android:src="@drawable/clock_tower_background"/>
 
     <ImageView
         android:id="@+id/hand_hour"
@@ -24,4 +24,4 @@
         android:src="@drawable/clock_tower_hand_minute_b"/>
 
 
-</fr.xgouchet.android.bttf.widget.ClockTowerWatchface>
+</fr.xgouchet.android.backintime.widget.ClockTowerWatchface>

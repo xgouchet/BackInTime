@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- GROUNDHOG -->
+    <color name="groundhog_text_color">#d0d0d0</color>
+
+    <!-- TIME CIRCUITS SCREEN COLOR -->
+    <color name="screen_destination">#100400</color>
+    <color name="screen_present">#001000</color>
+    <color name="screen_departed">#100C00</color>
+
+    <!-- TIME CIRCUITS LCD COLORS -->
+    <color name="accent_destination">#FF6000</color>
+    <color name="accent_present">#68FF60</color>
+    <color name="accent_departed">#FFC060</color>
+</resources>
