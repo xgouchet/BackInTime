@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Image size -->
+    <dimen name="groundhog_width">200dp</dimen>
+    <dimen name="groundhog_height">120dp</dimen>
+
+    <!-- Text size -->
+    <dimen name="groundhog_text_size">58dp</dimen>
+    <dimen name="groundhog_text_width">66dp</dimen>
+
+    <!-- Text position -->
+    <dimen name="groundhog_text_hour_x">22dp</dimen>
+    <dimen name="groundhog_text_min_x">108dp</dimen>
+    <dimen name="groundhog_text_y">85dp</dimen>
+
+    <!-- offset scale -->
+    <dimen name="groundhog_offset_scale">1dp</dimen>
+</resources>

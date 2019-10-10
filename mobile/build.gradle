@@ -32,10 +32,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':viewpagerindicator')
     wearApp project(':wear')
-
 
     compile 'com.android.support:support-v4:20.0.0'
     compile 'com.google.android.gms:play-services-wearable:5.0.77'

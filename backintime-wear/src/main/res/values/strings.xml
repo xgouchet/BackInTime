@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">BackInTime</string>
+    <string name="title_timecircuits_watchface">Time Circuits</string>
+    <string name="title_clockTower_watchface">Clock Tower</string>
+    <string name="title_groundhog_watchface">Groundhog Day</string>
+</resources>
